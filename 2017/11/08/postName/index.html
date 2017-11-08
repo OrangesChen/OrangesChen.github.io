@@ -5,16 +5,16 @@
   
   <title>iOS-private-api-checker私有API检查详细步骤（涉及到 Python、Flask、sqlite 环境） | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1、下载iOS-private-api-checker-master https://github.com/hustcc/iOS-private-api-checker 2、下载已经build好的ios_private.db库(本人能力有限，不会build，这个是大神build好的，sdk7.0版本，不是最新的，所以有些私有库查不出来(PS: 或者有些已经公开的库检测为私有库！！详情请看上面的链接">
+  <meta name="description" content="##1、下载iOS-private-api-checker-master https://github.com/hustcc/iOS-private-api-checker ##2、下载已经build好的ios_private.db库(本人能力有限，不会build，这个是大神build好的，sdk7.0版本，不是最新的，所以有些私有库查不出来(PS: 或者有些已经公开的库检测为私有库！！详情请看上">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS-private-api-checker私有API检查详细步骤（涉及到 Python、Flask、sqlite 环境）">
 <meta property="og:url" content="http://yoursite.com/2017/11/08/postName/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1、下载iOS-private-api-checker-master https://github.com/hustcc/iOS-private-api-checker 2、下载已经build好的ios_private.db库(本人能力有限，不会build，这个是大神build好的，sdk7.0版本，不是最新的，所以有些私有库查不出来(PS: 或者有些已经公开的库检测为私有库！！详情请看上面的链接">
-<meta property="og:updated_time" content="2017-11-08T08:35:30.093Z">
+<meta property="og:description" content="##1、下载iOS-private-api-checker-master https://github.com/hustcc/iOS-private-api-checker ##2、下载已经build好的ios_private.db库(本人能力有限，不会build，这个是大神build好的，sdk7.0版本，不是最新的，所以有些私有库查不出来(PS: 或者有些已经公开的库检测为私有库！！详情请看上">
+<meta property="og:updated_time" content="2017-11-08T08:50:32.443Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS-private-api-checker私有API检查详细步骤（涉及到 Python、Flask、sqlite 环境）">
-<meta name="twitter:description" content="1、下载iOS-private-api-checker-master https://github.com/hustcc/iOS-private-api-checker 2、下载已经build好的ios_private.db库(本人能力有限，不会build，这个是大神build好的，sdk7.0版本，不是最新的，所以有些私有库查不出来(PS: 或者有些已经公开的库检测为私有库！！详情请看上面的链接">
+<meta name="twitter:description" content="##1、下载iOS-private-api-checker-master https://github.com/hustcc/iOS-private-api-checker ##2、下载已经build好的ios_private.db库(本人能力有限，不会build，这个是大神build好的，sdk7.0版本，不是最新的，所以有些私有库查不出来(PS: 或者有些已经公开的库检测为私有库！！详情请看上">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -52,9 +52,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS-каналы"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Поиск"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -85,32 +85,52 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>1、下载iOS-private-api-checker-master <a href="https://github.com/hustcc/iOS-private-api-checker" target="_blank" rel="external">https://github.com/hustcc/iOS-private-api-checker</a></p>
-<p>2、下载已经build好的ios_private.db库(本人能力有限，不会build，这个是大神build好的，sdk7.0版本，不是最新的，所以有些私有库查不出来(PS: 或者有些已经公开的库检测为私有库！！详情请看上面的链接，github上有教程，写这篇文章主要是想尝试一下如何使用这个工具，准确性不敢保证)，github上有教程，有能力的可以自己build^^)，将 ios_private.db 放入到项目的根目录，主要修改可写权限；</p>
+        <p>##1、下载iOS-private-api-checker-master <a href="https://github.com/hustcc/iOS-private-api-checker" target="_blank" rel="external">https://github.com/hustcc/iOS-private-api-checker</a></p>
+<p>##2、下载已经build好的ios_private.db库(本人能力有限，不会build，这个是大神build好的，sdk7.0版本，不是最新的，所以有些私有库查不出来(PS: 或者有些已经公开的库检测为私有库！！详情请看上面的链接，github上有教程，写这篇文章主要是想尝试一下如何使用这个工具，准确性不敢保证)，github上有教程，有能力的可以自己build^^)，将 ios_private.db 放入到项目的根目录，主要修改可写权限；</p>
 <p>（备注：ios_private.db 下载地址： 链接: <a href="https://pan.baidu.com/s/1geCRcLP密码" target="_blank" rel="external">https://pan.baidu.com/s/1geCRcLP密码</a>: uc1c）</p>
-<p>3、在根目录创建一个 tmp 目录（如果没有的话，注意修改可写权限），或者将tmp的文件夹的权限设置为777，先进terminal，然后输入Wally的命令，后面添加你的目录名。</p>
-<p>$ sudo chmod -R 777 目录名<br>4、在终端输入sqlite3 , 出现这个表示已经安装了sqlite，没有则参考 <a href="http://www.runoob.com/sqlite/sqlite-installation.html" target="_blank" rel="external">http://www.runoob.com/sqlite/sqlite-installation.html</a> 进行安装</p>
+<p>##3、在根目录创建一个 tmp 目录（如果没有的话，注意修改可写权限），或者将tmp的文件夹的权限设置为777，先进terminal，然后输入Wally的命令，后面添加你的目录名。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo chmod -R 777 目录名</span><br></pre></td></tr></table></figure>
+<p>##4、在终端输入sqlite3 , 出现这个表示已经安装了sqlite，没有则参考 <a href="http://www.runoob.com/sqlite/sqlite-installation.html" target="_blank" rel="external">http://www.runoob.com/sqlite/sqlite-installation.html</a> 进行安装</p>
 <p>安装sqlite</p>
-<p>5、配置flask环境</p>
+<p>##5、配置flask环境</p>
 <p>5.1 Mac系统已经默认安装好了Python 2.7</p>
 <p>5.2 安装python的包管理器pip ，先下载 get-pip.py ： <a href="https://bootstrap.pypa.io/get-pip.py" target="_blank" rel="external">https://bootstrap.pypa.io/get-pip.py</a></p>
 <p>执行安装命令</p>
-<p>$ sudo python get-pip.py<br>5.3 安装virtualenv，virtualenv 为每个不同项目提供一份 Python 安装。它并没有真正安装多个 Python 副本，但是它确实提供了一种巧妙的方式来让各项目环境保持独立。</p>
-<p>$ sudo pip install virtualenv<br>5.4 开始配置flask环境</p>
+<pre><code class="bash">$ sudo python get-pip.py
+</code></pre>
+<p>5.3 安装virtualenv，virtualenv 为每个不同项目提供一份 Python 安装。它并没有真正安装多个 Python 副本，但是它确实提供了一种巧妙的方式来让各项目环境保持独立。</p>
+<pre><code class="bash">$ sudo pip install virtualenv
+</code></pre>
+<p>5.4 开始配置flask环境</p>
 <p>  进到项目目录</p>
-<p>$ cd 项目路径<br>创建flask文件夹</p>
-<p>$ virtualenv flask<br>$ cd flask<br>激活环境</p>
-<p>$ source bin/activate<br>安装flask</p>
-<p>$ pip install flask<br>回到根目录</p>
-<p>$ cd -<br>6 、安装 macholib</p>
-<p>$ pip install macholib<br>7、最后运行 run_web（或者 ）</p>
-<p>$ python run_web.py<br>在浏览器中输入127.0.0.1:9527 将ipa拖入上传框等待即可看到检查结果</p>
+<pre><code class="bash">$ <span class="built_in">cd</span> 项目路径
+</code></pre>
+<p>创建flask文件夹</p>
+<pre><code class="bash">$ virtualenv flask
+$ <span class="built_in">cd</span> flask
+</code></pre>
+<p>激活环境</p>
+<pre><code class="bash">$ <span class="built_in">source</span> bin/activate
+</code></pre>
+<p>安装flask</p>
+<pre><code class="bash">$ pip install flask
+</code></pre>
+<p>回到根目录</p>
+<pre><code class="bash">$ <span class="built_in">cd</span> -
+</code></pre>
+<p>##6 、安装 macholib</p>
+<pre><code class="bash">$ pip install macholib
+</code></pre>
+<p>##7、最后运行 run_web（或者 ）</p>
+<pre><code class="bash">$ python run_web.py
+</code></pre>
+<p>在浏览器中输入127.0.0.1:9527 将ipa拖入上传框等待即可看到检查结果</p>
 <p>检查结果</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/11/08/postName/" data-id="cj9qs1pg60001cwpa8mh9i6hj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/11/08/postName/" data-id="cj9qs1pg60001cwpa8mh9i6hj" class="article-share-link">Поделиться</a>
       
       
     </footer>
@@ -121,7 +141,7 @@
   
   
     <a href="/2017/11/08/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
+      <strong class="article-nav-caption">Предыдущий</strong>
       <div class="article-nav-title">Hello World</div>
     </a>
   
@@ -144,7 +164,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">Архив</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li></ul>
     </div>
@@ -154,7 +174,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">Недавние записи</h3>
     <div class="widget">
       <ul>
         
@@ -179,7 +199,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2017 John Doe<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Создано с помощью <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
