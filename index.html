@@ -141,6 +141,116 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Metal入门" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/09/Metal入门/">Metal入门</a>
+    </h1>
+  
+
+        
+        <a href="/2018/05/09/Metal入门/" class="archive-article-date">
+  	<time datetime="2018-05-09T02:59:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="使用Metal绘制一个三角形"><a href="#使用Metal绘制一个三角形" class="headerlink" title="使用Metal绘制一个三角形"></a>使用Metal绘制一个三角形</h3><p>学习使用苹果GPU加速3D绘图的新API:Metal<br>Metal和OpenGL ES相似，它也是一个底层API，负责和3D绘图硬件交互。它们之间的不同在于，Metal不是跨平台的, <code>Metal 是用 Objective-C 编 写的，基于 Foundation，使用 GCD 在 CPU 和 GPU 之间保持同步</code>。与之相反的，它设计的在苹果硬件上运行得极其高效，与OpenGL ES相比，它提供了更快的速度和更低的开销。它是一个GPU上一个简单的封装，所以能够完成几乎所有事情，像在屏幕上渲染一个精灵（sprite）或者是一个3D模型。但你要编写完成这些事情的所有代码。这样麻烦的代价是，你拥有了GPU的力量和控制。<br>优点：<br>1、使硬件达到运行效率的峰值：因为Metal非常底层，它允许你使硬件达到运行效率的峰值，对你的游戏如何运行有着完全的控制。<br>2、这是一个很好的学习经历：学习Metal教导你很多关于3D绘图编程的概念，编写你自己的游戏引擎，以及高层(higher level)游戏框架如何运作。</p>
+<p>关于metal详细的介绍可参考：<a href="https://www.objccn.io/issue-18-2/" target="_blank" rel="noopener">Metal</a></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1892391-7cfa3c654c6beb0c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Metal渲染流程图.png"></p>
+<h4 id="以下是使用Metal和Swift来创建一个有基本脉络的应用：画一个简单的三角形。"><a href="#以下是使用Metal和Swift来创建一个有基本脉络的应用：画一个简单的三角形。" class="headerlink" title="以下是使用Metal和Swift来创建一个有基本脉络的应用：画一个简单的三角形。"></a>以下是使用Metal和Swift来创建一个有基本脉络的应用：画一个简单的三角形。</h4><p>注意：Metal应用不能跑在iOS模拟器上，它们需要一个设备，设备上装载着苹果A7芯片或者更新的芯片。所以需要一台这样的设备(iPhone 5S,iPad Air,iPad mini2)来完成代码的测试。<br>打开Xcode 通过iOS\Application\Single View Application template创建一个新的项目。使用TriangleSwift作为项目名称，设置开发语言为Swift，设置设备为通用设备(Universal)。点击Next，选择一个目录，点击Create。<br>有七个步骤来设置metal：<br>1    创建一个MTLDevice<br>2    创建一个CAMetalLayer<br>3    创建一个Vertex Buffer<br>4    创建一个Vertex Shader<br>5    创建一个Fragment Shader<br>6    创建一个Render Pipeline<br>7    创建一个Command Queue</p>
+<h5 id="1-创建一个MTLDevice"><a href="#1-创建一个MTLDevice" class="headerlink" title="1    创建一个MTLDevice"></a>1    创建一个MTLDevice</h5><p>使用Metal你要做的第一件事就是获取一个MTLDevice的引用。<br>为了完成这点，打开ViewController.swift 并添加下面的import语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import Metal</span><br></pre></td></tr></table></figure></p>
+<p>导入了Metal框架，所以你能够使用Metal的类（像这文件中的MTLDevice）。接着，在ViewController类中添加以下属性：<br>在viewDidLoad函数内初始化这个属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 1、创建一个MTLDevice, 你可以把一个MTLDevice想象成是你和CPU的直接连接。你将通过使用MTLDevice创建所有其他你需要的Metal对象（像是command queues，buffers，textures）。</span><br><span class="line">var device: MTLDevice! = nil</span><br></pre></td></tr></table></figure></p>
+<h5 id="2-创建一个CAMetalLayer"><a href="#2-创建一个CAMetalLayer" class="headerlink" title="2 创建一个CAMetalLayer"></a>2 创建一个CAMetalLayer</h5><p>在iOS里，你在屏幕上看见的所有东西，被一个CALayer所承载。存在不同特效的CALayer的子类，比如：渐变层(gradient layers)、形状层（shapelayers）、重复层(replicator layers) 等等。如果你想要用Metal在屏幕上画一些东西，你需要使用一个特别的CALayer子类，CAMetalLayer。<br>因为CAMetalLayer是QuartzCore框架的部分，而不是Metal框架里的，首先在这个文件的上方添加import语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import QuartzCore</span><br></pre></td></tr></table></figure></p>
+<p>把新属性添加到类中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 2、创建一个CAMetalLayer</span><br><span class="line">var metalLayer: CAMetalLayer! = nil</span><br></pre></td></tr></table></figure></p>
+<p>设置metalLayer<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// 2.1 创建CAMetalLayer</span><br><span class="line">metalLayer = CAMetalLayer()</span><br><span class="line">// 2.2 必须明确layer使用的MTLDevice，简单地设置早前获取的device</span><br><span class="line">metalLayer.device = device</span><br><span class="line">// 2.3 把像素格式（pixel format）设置为BGRA8Unorm，它代表&quot;8字节代表蓝色、绿色、红色和透明度，通过在0到1之间单位化的值来表示&quot;。这次两种用在CAMetalLayer的像素格式之一，一般情况下你这样写就可以了。</span><br><span class="line">metalLayer.pixelFormat = .bgra8Unorm</span><br><span class="line">// 2.4 苹果鼓励将framebufferOnly设置为true，来增强表现效率。除非你需要对从layer生成的纹理（textures）取样，或者你需要在layer绘图纹理(drawable textures)激活一些计算内核，否则你不需要设置。（大部分情况下你不用设置）</span><br><span class="line">metalLayer.framebufferOnly = true</span><br><span class="line">// 2.5 把layer的frame设置为view的frame</span><br><span class="line">metalLayer.frame = view.layer.frame</span><br><span class="line">var drawableSize = self.view.bounds.size</span><br><span class="line">drawableSize.width *= self.view.contentScaleFactor</span><br><span class="line">drawableSize.height *= self.view.contentScaleFactor</span><br><span class="line">metalLayer.drawableSize = drawableSize</span><br><span class="line">view.layer.addSublayer(metalLayer)</span><br></pre></td></tr></table></figure></p>
+<h5 id="3-创建一个Vertex-Buffer"><a href="#3-创建一个Vertex-Buffer" class="headerlink" title="3  创建一个Vertex Buffer"></a>3  创建一个Vertex Buffer</h5><p>创建一个缓冲区。在你的类中添加下列的常量属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 3、创建一个Vertex Buffer</span><br><span class="line">var vertexBuffer: MTLBuffer! = nil</span><br><span class="line">// 3.1 在CPU创建一个浮点数数组，需要通过把它移动到一个MTLBuffer，来发送这些数据到GPU。</span><br><span class="line">let vertexData:[Float] = [</span><br><span class="line">     0.0,  1.0, 0.0,</span><br><span class="line">    -1.0, -1.0, 0.0,</span><br><span class="line">     1.0, -1.0, 0.0</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<p>在MTLDevice上调用makeBuffer(bytes:, length:, options:)，在GPU创建一个新的buffer，从CPU里输送data。options不能为空。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 3.2 获取vertex data的字节大小。你通过把元素的大小和数组元素个数相乘来得到</span><br><span class="line">let dataSize = vertexData.count * 4</span><br><span class="line">// 3.3 在GPU创建一个新的buffer，从CPU里输送data</span><br><span class="line">vertexBuffer = device.makeBuffer(bytes: vertexData, length: dataSize, options: MTLResourceOptions(rawValue: UInt(0)))</span><br></pre></td></tr></table></figure></p>
+<h5 id="4-创建一个Vertex-Shader"><a href="#4-创建一个Vertex-Shader" class="headerlink" title="4 创建一个Vertex Shader"></a>4 创建一个Vertex Shader</h5><p>你之前创建的顶点将成为接下来写的一个叫vertext shader的小程序的输入。<br>一个vertex shader 是一个在GPU上运行的小程序，它由像c++的一门语言编写，那门语言叫做Metal Shading Language。<br>一个vertex shader被每个顶点调用，它的工作是接受顶点的信息（如：位置和颜色、纹理坐标），返回一个潜在的修正位置（可能还有别的相关信息）<br>点击File\New\File，选择iOS\Source\Metal File，然后点击Next。输入Shader.metal作为文件名，然后点击Create。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 一个vertex shader被每个顶点调用，它的工作是接受顶点的信息（如：位置和颜色、纹理坐标），返回一个潜在的修正位置（可能还有别的相关信息）</span><br><span class="line">#include &lt;metal_stdlib&gt;</span><br><span class="line">using namespace metal;</span><br><span class="line">/**</span><br><span class="line"> * 1、所有的vertex shaders必须以关键字vertex开头。函数必须至少返回顶点的最终位置——你通过指定float4（一个元素为4个浮点数的向量）。然后你给一个名字给vetex shader，以后你将用这个名字来访问这个vertex shader。</span><br><span class="line"> * 2、vertex shader会接受一个名叫vertex_id的属性的特定参数，它意味着它会被vertex数组里特定的顶点所装入。</span><br><span class="line"> * 3、一个指向一个元素为packed_float4(一个向量包含4个浮点数)的数组的指针，如：每个顶点的位置。这个 [[ ... ]] 语法被用在声明那些能被用作特定额外信息的属性，像是资源位置，shader输入，内建变量。这里你把这个参数用 [[ buffer(0) ]] 标记，来指明这个参数将会被在你代码中你发送到你的vertex shader的第一块buffer data所遍历。</span><br><span class="line"> * 4、基于vertex id来检索vertex数组中对应位置的vertex并把它返回。向量必须为一个float4类型</span><br><span class="line">vertex float4 basic_vertex (</span><br><span class="line">   constant packed_float3* vertex_array[[buffer(0)]],</span><br><span class="line">                      unsigned int vid[[vertex_id]])&#123;</span><br><span class="line">   return float4(vertex_array[vid], 1.0);</span><br><span class="line">&#125;</span><br><span class="line"> */</span><br></pre></td></tr></table></figure></p>
+<h5 id="5-创建一个Fragment-Shader"><a href="#5-创建一个Fragment-Shader" class="headerlink" title="5  创建一个Fragment Shader"></a>5  创建一个Fragment Shader</h5><p>完成vertex shader后，另一个shader，它被每个在屏幕上的fragment(think pixel)调用，它就是fragment shader。<br>fragment shader通过内插(interpolating)vertex shader的输出来获得自己的输入。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> 1. 所有fragment shaders必须以fragment关键字开始。这个函数必须至少返回fragment的最终颜色——你通过指定half4（一个颜色的RGBA值）来完成这个任务。注意，half4比float4在内存上更有效率，因为，你写入了更少的GPU内存。</span><br><span class="line"> 2. 这里你返回(0.6,0.6,0.6,0.6)的颜色，也就是灰色。</span><br><span class="line"> */</span><br><span class="line">fragment half4 basic_fragment() &#123;</span><br><span class="line">    return half4(0.6);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h5 id="6-创建一个Render-Pipeline"><a href="#6-创建一个Render-Pipeline" class="headerlink" title="6  创建一个Render Pipeline"></a>6  创建一个Render Pipeline</h5><p>现在你已经创建了一个vertex shader和一个fragment shader，你需要组合它们（加上一些配置数据）到一个特殊的对象，它名叫render pipeline。Metal的渲染器（shaders）是预编译的，render pipeline 配置会在你第一次设置它的时候被编译，所以所有事情都极其高效。<br>首先在ViewController.swift里添加一个属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 6、创建一个Render Pipeline</span><br><span class="line">var pipelineState: MTLRenderPipelineState! = nil</span><br></pre></td></tr></table></figure></p>
+<p>在viewDidLoad方法最后添加如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 6.1 通过调用device.newDefaultLibrary方法获得的MTLibrary对象访问到你项目中的预编译shaders,然后通过名字检索每个shader</span><br><span class="line">        let defaultLibrary = device.newDefaultLibrary()</span><br><span class="line">        let fragmentProgram = defaultLibrary?.makeFunction(name: &quot;basic_fragment&quot;)</span><br><span class="line">        let vertextProgram = defaultLibrary?.makeFunction(name: &quot;basic_vertex&quot;)</span><br><span class="line">        // 6.2 这里设置你的render pipeline。它包含你想要使用的shaders、颜色附件（color attachment）的像素格式(pixel format)。（例如：你渲染到的输入缓冲区，也就是CAMetalLayer）</span><br><span class="line">        let pipelineStateDescriptor = MTLRenderPipelineDescriptor()</span><br><span class="line">        pipelineStateDescriptor.vertexFunction = vertextProgram</span><br><span class="line">        pipelineStateDescriptor.fragmentFunction = fragmentProgram    pipelineStateDescriptor.colorAttachments[0].pixelFormat = .bgra8Unorm</span><br></pre></td></tr></table></figure></p>
+<h5 id="7-创建一个Command-Queue"><a href="#7-创建一个Command-Queue" class="headerlink" title="7  创建一个Command Queue"></a>7  创建一个Command Queue</h5><p>你需要做的最终的设置步骤，是创建一个MTLCommandQueue。<br>把这个想象成是一个列表装载着你告诉GPU一次要执行的命令。<br>要创建一个command queue，简单地添加一个属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 7、创建一个Command Queue</span><br><span class="line">var commandQueue: MTLCommandQueue! = nil</span><br></pre></td></tr></table></figure></p>
+<p>把下面这行添加到viewDidLoad中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 7.1 初始化commandQueue</span><br><span class="line">commandQueue = device.makeCommandQueue()</span><br></pre></td></tr></table></figure></p>
+<p>预设置的代码到这里完成了。<br>接下来就是渲染三角形了，它将需要在五个步骤来完成：<br>1    创建一个Display link。<br>2    创建一个Render Pass Descriptor<br>3    创建一个Command Buffer<br>4    创建一个Render Command Encoder<br>5    提交Command Buffer的内容<br>注意：理论上这个应用实际上不需要每帧渲染，因为三角形被绘制之后不会动。但是，大部分应用会有物体的移动，所以我们会那样做。</p>
+<h5 id="1-创建一个Display-link"><a href="#1-创建一个Display-link" class="headerlink" title="1    创建一个Display link"></a>1    创建一个Display link</h5><p>在iOS平台上，通过CADisplayLink 类，可以创建一个函数在每次设备屏幕刷新的时候被调用，这样你就可以重绘屏幕。<br>为了使用它，在类里添加一个新的属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 8、创建一个Display Link</span><br><span class="line">var timer: CADisplayLink! = nil</span><br></pre></td></tr></table></figure></p>
+<p>初始化timer<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 8.1 初始化 timer，设置timer，让它每次刷新屏幕的时候调用一个名叫drawloop的方法</span><br><span class="line">timer = CADisplayLink(target: self, selector: #selector(ViewController.drawloop))</span><br><span class="line">timer.add(to: RunLoop.main, forMode: RunLoopMode.defaultRunLoopMode)</span><br></pre></td></tr></table></figure></p>
+<p>渲染的代码在render()中实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">func render() &#123;</span><br><span class="line">    //TODO</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func drawloop() &#123;</span><br><span class="line">    self.render()</span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h5 id="2-创建一个Render-Pass-Descriptor"><a href="#2-创建一个Render-Pass-Descriptor" class="headerlink" title="2  创建一个Render Pass Descriptor"></a>2  创建一个Render Pass Descriptor</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// metal layer上调用nextDrawable() ，它会返回你需要绘制到屏幕上的纹理(texture)</span><br><span class="line">let drawable = metalLayer.nextDrawable()</span><br><span class="line">// 8、创建一个Render Pass Descriptor，配置什么纹理会被渲染到、clear color，以及其他的配置</span><br><span class="line">let renderPassDesciptor = MTLRenderPassDescriptor()</span><br><span class="line">renderPassDesciptor.colorAttachments[0].texture = drawable?.texture</span><br><span class="line">// 设置load action为clear，也就是说在绘制之前，把纹理清空</span><br><span class="line">renderPassDesciptor.colorAttachments[0].loadAction = .clear</span><br><span class="line">// 绘制的背景颜色设置为绿色</span><br><span class="line">renderPassDesciptor.colorAttachments[0].clearColor = MTLClearColorMake(0.0, 0.8, 0.5, 1.0)</span><br></pre></td></tr></table></figure>
+<h5 id="3-创建一个Command-Buffer"><a href="#3-创建一个Command-Buffer" class="headerlink" title="3  创建一个Command Buffer"></a>3  创建一个Command Buffer</h5><p>一个command buffer包含一个或多个渲染指令（render commands）。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 9、创建一个Command Buffer</span><br><span class="line">// 你可以把它想象为一系列这一帧想要执行的渲染命令。注意在你提交command buffer之前，没有事情会真正发生，这样给你对事物在何时发生有一个很好的控制。</span><br><span class="line">let commandBuffer = commandQueue.makeCommandBuffer()</span><br></pre></td></tr></table></figure></p>
+<h5 id="4-创建一个渲染命令编码器-Render-Command-Encoder"><a href="#4-创建一个渲染命令编码器-Render-Command-Encoder" class="headerlink" title="4  创建一个渲染命令编码器(Render Command Encoder)"></a>4  创建一个渲染命令编码器(Render Command Encoder)</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// 10、创建一个渲染命令编码器(Render Command Encoder)</span><br><span class="line">    // 创建一个command encoder，并指定你之前创建的pipeline和顶点</span><br><span class="line">       let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDesciptor)</span><br><span class="line">       renderEncoder.setRenderPipelineState(pipelineState)</span><br><span class="line">       renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, at: 0)</span><br><span class="line">       /**</span><br><span class="line">          绘制图形</span><br><span class="line">        - parameter type:          画三角形</span><br><span class="line">        - parameter vertexStart:   从vertex buffer 下标为0的顶点开始</span><br><span class="line">        - parameter vertexCount:   顶点数</span><br><span class="line">        - parameter instanceCount: 总共有1个三角形</span><br><span class="line">        */</span><br><span class="line">       renderEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 3, instanceCount: 1)</span><br><span class="line">      </span><br><span class="line">       // 完成后，调用endEncoding()</span><br><span class="line">       renderEncoder.endEncoding()</span><br></pre></td></tr></table></figure>
+<h5 id="5-提交Command-Buffer"><a href="#5-提交Command-Buffer" class="headerlink" title="5  提交Command Buffer"></a>5  提交Command Buffer</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 保证新纹理会在绘制完成后立即出现</span><br><span class="line">commandBuffer.present(drawable!)</span><br><span class="line">// 提交事务(transaction), 把任务交给GPU</span><br><span class="line">commandBuffer.commit()</span><br></pre></td></tr></table></figure>
+<h5 id="学习资料："><a href="#学习资料：" class="headerlink" title="学习资料："></a>学习资料：</h5><p>•    苹果Metal<a href="https://developer.apple.com/metal/" target="_blank" rel="noopener">开发者文档</a>，有很多文档、录像、样例代码的链接。<br>•    苹果的Metal<a href="https://developer.apple.com/library/prerelease/ios/documentation/Miscellaneous/Conceptual/MTLProgGuide/Introduction/Introduction.html" target="_blank" rel="noopener">编程指导</a><br>•    苹果的Metal <a href="https://developer.apple.com/library/prerelease/ios/documentation/Metal/Reference/MetalShadingLanguageGuide/Introduction/Introduction.html" target="_blank" rel="noopener">Shading Language 指导</a><br>•    <a href="https://developer.apple.com/videos/wwdc/2014/" target="_blank" rel="noopener">WWDC2014 Metal录像</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Metal</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Metal教程//" class="article-tag-list-link color3">Metal教程</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/05/09/Metal入门/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-private_api_checker" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -209,7 +319,29 @@ $ <span class="built_in">cd</span> flask
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/iOS随笔//" class="article-tag-list-link color1">iOS随笔</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
 
       
         <p class="article-more-link">
@@ -405,6 +537,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Metal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">iOS</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
@@ -458,7 +598,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">一个想要脱贫&lt;br&gt;&lt;br&gt;顺便脱单&lt;br&gt;&lt;br&gt;一夜暴富&lt;br&gt;&lt;br&gt;周游全世界的&lt;br&gt;&lt;br&gt;菜鸟程序媛</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">一个想脱贫&lt;br&gt;&lt;br&gt;顺便脱单&lt;br&gt;&lt;br&gt;一夜暴富&lt;br&gt;&lt;br&gt;周游全世界的&lt;br&gt;&lt;br&gt;菜鸟程序媛</div>
   	  	
     	</section>
     
