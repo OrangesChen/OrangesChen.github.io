@@ -17,7 +17,7 @@
 <meta property="og:description" content="本章内容主要是在上一篇绘制三角形的基础上添加了图片渲染的功能，分别说明了使用Metal和MetalKit中创建纹理的方法。 1、首先修改Metal shader的着色里的内容 添加顶点输入和输出的结构体 123456789101112// 输入的顶点和纹理坐标   struct VertexIn &amp;#123;     packed_float3 position;     packed_float">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1892391-e2c905743d67437b.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/300">
-<meta property="og:updated_time" content="2018-05-09T03:33:01.873Z">
+<meta property="og:updated_time" content="2018-05-09T05:31:45.054Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Metal图片渲染">
 <meta name="twitter:description" content="本章内容主要是在上一篇绘制三角形的基础上添加了图片渲染的功能，分别说明了使用Metal和MetalKit中创建纹理的方法。 1、首先修改Metal shader的着色里的内容 添加顶点输入和输出的结构体 123456789101112// 输入的顶点和纹理坐标   struct VertexIn &amp;#123;     packed_float3 position;     packed_float">
@@ -172,6 +172,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// 添加纹理顶点坐标</span><br><span class="line">vertex VertexOut texture_vertex(uint vid[[vertex_id]], const device VertexIn *vertex_array[[buffer(0)]])</span><br><span class="line">&#123;</span><br><span class="line">    VertexOut outVertex;</span><br><span class="line">    VertexIn vertexIn = vertex_array[vid];</span><br><span class="line">    outVertex.position = float4(vertexIn.position, 1.0);</span><br><span class="line">    outVertex.st = vertexIn.st;</span><br><span class="line">//    outVertex.color = color[vid];</span><br><span class="line">    return outVertex;</span><br><span class="line">&#125;;</span><br><span class="line">fragment float4 texture_fragment(VertextInOut inFrag[[stage_in]], texture2d&lt;float&gt; texas[[texture(0)]])</span><br><span class="line">&#123;</span><br><span class="line">    constexpr sampler defaultSampler;</span><br><span class="line">    float4 rgba = texas.sample(defaultSampler, inFrag.st).rgba;</span><br><span class="line">    return rgba;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
+<a id="more"></a>
 <h6 id="2、加载图片创建Metal纹理"><a href="#2、加载图片创建Metal纹理" class="headerlink" title="2、加载图片创建Metal纹理"></a>2、加载图片创建Metal纹理</h6><ul>
 <li>Metal Framework中在处理贴图上使用<code>CGImage</code>在<code>CGContext</code>上<code>draw</code>的方法来取得图像, 但是通过<code>draw</code>方法绘制的图像是上下颠倒的。</li>
 <li><p>首先要说的是，在iOS的不同framework中使用着不同的坐标系：</p>
