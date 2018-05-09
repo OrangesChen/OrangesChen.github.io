@@ -346,7 +346,8 @@
       
         <h3 id="使用Metal绘制一个三角形"><a href="#使用Metal绘制一个三角形" class="headerlink" title="使用Metal绘制一个三角形"></a>使用Metal绘制一个三角形</h3><p>学习使用苹果GPU加速3D绘图的新API:Metal<br>Metal和OpenGL ES相似，它也是一个底层API，负责和3D绘图硬件交互。它们之间的不同在于，Metal不是跨平台的, <code>Metal 是用 Objective-C 编 写的，基于 Foundation，使用 GCD 在 CPU 和 GPU 之间保持同步</code>。与之相反的，它设计的在苹果硬件上运行得极其高效，与OpenGL ES相比，它提供了更快的速度和更低的开销。它是一个GPU上一个简单的封装，所以能够完成几乎所有事情，像在屏幕上渲染一个精灵（sprite）或者是一个3D模型。但你要编写完成这些事情的所有代码。这样麻烦的代价是，你拥有了GPU的力量和控制。<br>优点：<br>1、使硬件达到运行效率的峰值：因为Metal非常底层，它允许你使硬件达到运行效率的峰值，对你的游戏如何运行有着完全的控制。<br>2、这是一个很好的学习经历：学习Metal教导你很多关于3D绘图编程的概念，编写你自己的游戏引擎，以及高层(higher level)游戏框架如何运作。</p>
 <p>关于metal详细的介绍可参考：<a href="https://www.objccn.io/issue-18-2/" target="_blank" rel="noopener">Metal</a></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1892391-7cfa3c654c6beb0c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Metal渲染流程图.png"></p>
+<div align="center"><br>    <img src="/img/Metal/1/flowchart.png" alt="Metal渲染流程图.png"><br></div>
+
 <h4 id="以下是使用Metal和Swift来创建一个有基本脉络的应用：画一个简单的三角形。"><a href="#以下是使用Metal和Swift来创建一个有基本脉络的应用：画一个简单的三角形。" class="headerlink" title="以下是使用Metal和Swift来创建一个有基本脉络的应用：画一个简单的三角形。"></a>以下是使用Metal和Swift来创建一个有基本脉络的应用：画一个简单的三角形。</h4><p>注意：Metal应用不能跑在iOS模拟器上，它们需要一个设备，设备上装载着苹果A7芯片或者更新的芯片。所以需要一台这样的设备(iPhone 5S,iPad Air,iPad mini2)来完成代码的测试。<br>打开Xcode 通过iOS\Application\Single View Application template创建一个新的项目。使用TriangleSwift作为项目名称，设置开发语言为Swift，设置设备为通用设备(Universal)。点击Next，选择一个目录，点击Create。<br>有七个步骤来设置metal：<br>1    创建一个MTLDevice<br>2    创建一个CAMetalLayer<br>3    创建一个Vertex Buffer<br>4    创建一个Vertex Shader<br>5    创建一个Fragment Shader<br>6    创建一个Render Pipeline<br>7    创建一个Command Queue</p>
         
           <a class="article-more-a" href="/2018/05/09/Metal入门/#more">more >></a>

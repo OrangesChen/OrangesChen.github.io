@@ -16,12 +16,12 @@
 <meta property="og:site_name" content="OrangesChen&#39;s Blog">
 <meta property="og:description" content="本章内容主要是在上一篇绘制三角形的基础上添加了图片渲染的功能，分别说明了使用Metal和MetalKit中创建纹理的方法。 1、首先修改Metal shader的着色里的内容 添加顶点输入和输出的结构体 123456789101112// 输入的顶点和纹理坐标   struct VertexIn &amp;#123;     packed_float3 position;     packed_float">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1892391-e2c905743d67437b.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/300">
-<meta property="og:updated_time" content="2018-05-09T05:31:45.054Z">
+<meta property="og:image" content="http://orangeschen.top/img/Metal/2/result.png">
+<meta property="og:updated_time" content="2018-05-09T06:19:39.407Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Metal图片渲染">
 <meta name="twitter:description" content="本章内容主要是在上一篇绘制三角形的基础上添加了图片渲染的功能，分别说明了使用Metal和MetalKit中创建纹理的方法。 1、首先修改Metal shader的着色里的内容 添加顶点输入和输出的结构体 123456789101112// 输入的顶点和纹理坐标   struct VertexIn &amp;#123;     packed_float3 position;     packed_float">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1892391-e2c905743d67437b.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/300">
+<meta name="twitter:image" content="http://orangeschen.top/img/Metal/2/result.png">
   
     <link rel="alternative" href="/atom.xml" title="OrangesChen&#39;s Blog" type="application/atom+xml">
   
@@ -221,7 +221,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">renderEncoder.setFragmentTexture(quaTexture, at: 0)</span><br><span class="line"> // 根据索引画图</span><br><span class="line">renderEncoder.drawIndexedPrimitives(type: .triangle, indexCount: indices.count, indexType: .uint32, indexBuffer: indexBuffer, indexBufferOffset: 0)</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>最终效果图如图所示，对于这些原理的东西了解还不是很深，网上的资料太少，能力有限，只能琢磨一些简单的东西。</p>
-<div align="center"><br>  <img src="http://upload-images.jianshu.io/upload_images/1892391-e2c905743d67437b.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/300" alt="效果图"><br></div>
+<div align="center"><br>  <img src="/img/Metal/2/result.png" alt="效果图"><br></div>
 
 </li>
 </ul>
