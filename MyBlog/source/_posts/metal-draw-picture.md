@@ -1,5 +1,6 @@
 ---
 title: Metal图片渲染
+date: 2018-05-09 
 tags:
     - Metal
     - iOS
@@ -21,6 +22,7 @@ tags:
     float2 st;
  };
 ```
+<!--more-->
 * 顶点函数和片段函数内容
 ```
 // 添加纹理顶点坐标
@@ -40,7 +42,7 @@ fragment float4 texture_fragment(VertextInOut inFrag[[stage_in]], texture2d<floa
     return rgba;
 };
 ```
-<!--more-->
+
 ###### 2、加载图片创建Metal纹理
 * Metal Framework中在处理贴图上使用`CGImage`在`CGContext`上`draw`的方法来取得图像, 但是通过`draw`方法绘制的图像是上下颠倒的。
 * 首先要说的是，在iOS的不同framework中使用着不同的坐标系：
@@ -213,7 +215,7 @@ var indexBuffer: MTLBuffer! = nil
  renderEncoder.drawIndexedPrimitives(type: .triangle, indexCount: indices.count, indexType: .uint32, indexBuffer: indexBuffer, indexBufferOffset: 0)
 ```
 * 最终效果图如图所示，对于这些原理的东西了解还不是很深，网上的资料太少，能力有限，只能琢磨一些简单的东西。
-![效果图](assets/img/metal_draw_picture.png)
+![效果图](/assets/img/metal_draw_picture.png)
 
 如果对Metal感兴趣的可以下载[Metal Swift Demo](https://github.com/turner/HelloMetal), GitHub上偶然看到别人写的Demo，里面有纹理和矩阵，ModelIO和MetalKit的结合使用等例子。
 

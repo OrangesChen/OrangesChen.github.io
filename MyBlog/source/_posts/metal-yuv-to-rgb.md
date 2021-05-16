@@ -1,11 +1,14 @@
 ---
 title: Metal实现YUV转RGB渲染视频
+date: 2018-05-09 
 tags:
     - Metal
     - iOS
 ---
 本次例子使用的是`AVFoundation`提供的`AVCaptureVideoDataOutput`获取每一帧的`CVPixelBufferRef`，详细步骤就不说了，网上有很多例子，这篇文章主要是介绍Metal中实现YUV转RGB格式的一些主要步骤，和OpenGL中的步骤差不多，主要是API和着色器不同，思路是一样的，这篇文章适合熟悉`OpenGL`视频渲染和有`Metal`基础的人观看，代码就不一一注释了，主要是本人理解的也不是很深，怕误人子弟。（示例代码为横屏显示，所以看到的屏幕是横屏显示）
 [源代码下载地址](https://github.com/OrangesChen/Metal/tree/VideoCapture)
+
+<!--more-->
 ###### 1 首先是shader上的片元着色器转换YUV到RGB
 ```
 #include <metal_stdlib>
@@ -51,7 +54,7 @@ fragment half4 yuv_rgb(YUV_SHADER_ARGS)
     return half4(half3(colorParameters->yuvToRGB * yuv),yuv.x);
 }
 ```
-<!--more-->
+
 ###### 2 添加纹理缓存CVMetalTextureCacheRef和纹理MTLTexture变量
 ```
   CVMetalTextureCacheRef _videoTextureCache;

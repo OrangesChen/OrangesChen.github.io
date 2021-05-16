@@ -1,5 +1,6 @@
 ---
 title: Metal入门（使用Metal画一个三角形）
+date: 2018-05-02 
 tags:
     - Metal
     - iOS
@@ -10,6 +11,7 @@ Metal和OpenGL ES相似，它也是一个底层API，负责和3D绘图硬件交�
 1、使硬件达到运行效率的峰值：因为Metal非常底层，它允许你使硬件达到运行效率的峰值，对你的游戏如何运行有着完全的控制。
 2、这是一个很好的学习经历：学习Metal教导你很多关于3D绘图编程的概念，编写你自己的游戏引擎，以及高层(higher level)游戏框架如何运作。
 
+<!--more-->
 关于metal详细的介绍可参考:
 ![Metal渲染流程图.png](/assets/img/metal_draw_pipeline.png)
 #### 以下是使用Metal和Swift来创建一个有基本脉络的应用：画一个简单的三角形。
@@ -23,6 +25,8 @@ Metal和OpenGL ES相似，它也是一个底层API，负责和3D绘图硬件交�
 5    创建一个Fragment Shader
 6    创建一个Render Pipeline
 7    创建一个Command Queue
+
+
 ##### 1    创建一个MTLDevice
 使用Metal你要做的第一件事就是获取一个MTLDevice的引用。
 为了完成这点，打开ViewController.swift 并添加下面的import语句
@@ -35,7 +39,6 @@ import Metal
     // 1、创建一个MTLDevice, 你可以把一个MTLDevice想象成是你和CPU的直接连接。你将通过使用MTLDevice创建所有其他你需要的Metal对象（像是command queues，buffers，textures）。
     var device: MTLDevice! = nil
 ```
-<!--more-->
 ##### 2 创建一个CAMetalLayer
 在iOS里，你在屏幕上看见的所有东西，被一个CALayer所承载。存在不同特效的CALayer的子类，比如：渐变层(gradient layers)、形状层（shapelayers）、重复层(replicator layers) 等等。如果你想要用Metal在屏幕上画一些东西，你需要使用一个特别的CALayer子类，CAMetalLayer。
 因为CAMetalLayer是QuartzCore框架的部分，而不是Metal框架里的，首先在这个文件的上方添加import语句
