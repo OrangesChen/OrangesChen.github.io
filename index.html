@@ -218,6 +218,86 @@
 
 
   
+    <article id="post-metal-yuv-to-rgb" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/09/metal-yuv-to-rgb/">Metal实现YUV转RGB渲染视频</a>
+    </h1>
+  
+
+        
+        <a href="/2018/05/09/metal-yuv-to-rgb/" class="archive-article-date">
+  	<time datetime="2018-05-08T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本次例子使用的是<code>AVFoundation</code>提供的<code>AVCaptureVideoDataOutput</code>获取每一帧的<code>CVPixelBufferRef</code>，详细步骤就不说了，网上有很多例子，这篇文章主要是介绍Metal中实现YUV转RGB格式的一些主要步骤，和OpenGL中的步骤差不多，主要是API和着色器不同，思路是一样的，这篇文章适合熟悉<code>OpenGL</code>视频渲染和有<code>Metal</code>基础的人观看，代码就不一一注释了，主要是本人理解的也不是很深，怕误人子弟。（示例代码为横屏显示，所以看到的屏幕是横屏显示）<br><a href="https://github.com/OrangesChen/Metal/tree/VideoCapture" target="_blank" rel="noopener">源代码下载地址</a></p>
+        
+          <a class="article-more-a" href="/2018/05/09/metal-yuv-to-rgb/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Metal</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/05/09/metal-yuv-to-rgb/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-metal-draw-picture" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -271,86 +351,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/05/09/metal-draw-picture/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-metal-yuv-to-rgb" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/09/metal-yuv-to-rgb/">Metal实现YUV转RGB渲染视频</a>
-    </h1>
-  
-
-        
-        <a href="/2018/05/09/metal-yuv-to-rgb/" class="archive-article-date">
-  	<time datetime="2018-05-08T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本次例子使用的是<code>AVFoundation</code>提供的<code>AVCaptureVideoDataOutput</code>获取每一帧的<code>CVPixelBufferRef</code>，详细步骤就不说了，网上有很多例子，这篇文章主要是介绍Metal中实现YUV转RGB格式的一些主要步骤，和OpenGL中的步骤差不多，主要是API和着色器不同，思路是一样的，这篇文章适合熟悉<code>OpenGL</code>视频渲染和有<code>Metal</code>基础的人观看，代码就不一一注释了，主要是本人理解的也不是很深，怕误人子弟。（示例代码为横屏显示，所以看到的屏幕是横屏显示）<br><a href="https://github.com/OrangesChen/Metal/tree/VideoCapture" target="_blank" rel="noopener">源代码下载地址</a></p>
-        
-          <a class="article-more-a" href="/2018/05/09/metal-yuv-to-rgb/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Metal</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/05/09/metal-yuv-to-rgb/">展开全文 >></a>
         </p>
       
 
