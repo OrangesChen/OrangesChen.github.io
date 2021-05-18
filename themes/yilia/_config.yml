@@ -2,6 +2,9 @@
 
 menu:
   主页: /
+  大前端: /tags/FrontEnd
+  随笔: /tags/Life
+  iOS: /tags/iOS
 
 # SubNav
 subnav:
