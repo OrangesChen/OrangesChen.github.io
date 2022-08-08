@@ -6,9 +6,12 @@ tags:
     - iOS
 ---
 本章内容主要是在上一篇[绘制三角形](http://www.jianshu.com/p/5ce9f4f11637)的基础上添加了图片渲染的功能，分别说明了使用Metal和MetalKit中创建纹理的方法。
+
 ###### 1、首先修改Metal shader的着色里的内容
+
 * 添加顶点输入和输出的结构体
-```
+
+```Shader
 // 输入的顶点和纹理坐标
    struct VertexIn
  {
@@ -24,7 +27,8 @@ tags:
 ```
 <!--more-->
 * 顶点函数和片段函数内容
-```
+
+```Shader
 // 添加纹理顶点坐标
 vertex VertexOut texture_vertex(uint vid[[vertex_id]], const device VertexIn *vertex_array[[buffer(0)]])
 {
@@ -44,14 +48,16 @@ fragment float4 texture_fragment(VertextInOut inFrag[[stage_in]], texture2d<floa
 ```
 
 ###### 2、加载图片创建Metal纹理
+
 * Metal Framework中在处理贴图上使用`CGImage`在`CGContext`上`draw`的方法来取得图像, 但是通过`draw`方法绘制的图像是上下颠倒的。
 * 首先要说的是，在iOS的不同framework中使用着不同的坐标系：
+
 > UIKit － y轴向下
  Core Graphics(Quartz) － y轴向上
  OpenGL ES － y轴向上
  UIKit是iPhone SDK的Cocoa Touch层的核心framework，是iPhone应用程序图形界面和事件驱动的基础，它和传统windows桌面一样，坐标系是y轴向下的; Core Graphics(Quartz)一个基于2D的图形绘制引擎，它的坐标系则是y轴向上的；而OpenGL ES是iPhone SDK的2D和3D绘制引擎，它使用左手坐标系，它的坐标系也是y轴向上的，如果不考虑z轴，在 二维下它的坐标系和Quartz是一样的。
 
-### ` 注：不知道是不是API更新等原因，有小伙伴说图片倒置的问题还是存在，经过测试，发现CGContextDrawImage绘制的图片已经不需要处理倒置的问题了，具体原因还有待证实，或者说我这些观点有误的话希望有人能详细指出  `
+### `注：不知道是不是API更新等原因，有小伙伴说图片倒置的问题还是存在，经过测试，发现CGContextDrawImage绘制的图片已经不需要处理倒置的问题了，具体原因还有待证实，或者说我这些观点有误的话希望有人能详细指出`
 
 >`以下内容可以忽略😆`
 当通过CGContextDrawImage绘制图片到一个context中时，如果传入的是UIImage的CGImageRef，因为UIKit和CG坐标系y轴相反，所以图片绘制将会上下颠倒。解决方法有以下几种，
@@ -61,13 +67,16 @@ fragment float4 texture_fragment(VertextInOut inFrag[[stage_in]], texture2d<floa
   本人能力有限，对于我来说矩阵的处理还是有难度的，所以选择第二种相对简单一些的方法来解决图片上下颠倒的问题。
 
 * 新建Swift文件，引入头文件
-```
+
+```Swift
 import Metal
 import UIKit
 import CoreGraphics
 ```
+
 * 添加图片加载方法，调用`makeTexture()`方法生成纹理
-```
+
+```Swift
 var type: MTLTextureType!
 var texture: MTLTexture!
 // 在处理贴图上使用CGImage在CGContext上draw的方法来取得图像, 但是通过draw方法绘制的图像是上下颠倒的，可以通过UIImage的drawInRect函数，该函数内部能自动处理图片的正确方向，生成纹理
@@ -101,14 +110,18 @@ func loadIntoTextureWithDevice(device: MTLDevice, name: String, ext: String) -> 
     return true
 }
 ```
+
 * MetalKit Framework则直接提供了`MTKTextureLoader`创建纹理
 * 引入MetalKit头文件
-```
+
+```Swift
 import Foundation
 import MetalKit
 ```
+
 * `MTKTextureLoader`加载图片创建纹理，`MTKTextureLoader`中提供了异步和同步加载的方法
-```
+
+```Swift
 enum TextureError: Error {
     case UIImageCreationError
     case MTKTextureLoaderError
@@ -139,7 +152,8 @@ func makeTexture(device: MTLDevice, name: String) throws -> MTLTexture {
     }
 }
 ```
-```
+
+```Swift
   // 自定义UIImage的类方法，设置图片大小
 extension UIImage {
     class func scaleToSize(_ image: UIImage, size: CGSize)->UIImage {
@@ -151,18 +165,24 @@ extension UIImage {
     }
 ```
 
-###### 3、获取纹理坐标，渲染图片
-*  之前绘制三角形是使用顶点绘制的，这次使用索引绘制一个四边形。
-*  添加纹理属性
-```
+##### 3、获取纹理坐标，渲染图片
+
+* 之前绘制三角形是使用顶点绘制的，这次使用索引绘制一个四边形。
+* 添加纹理属性
+
+```Swift
 var quaTexture: MTLTexture! = nil
 ```
+
 * 添加顶点buffer
-```
+
+```Swift
 var indexBuffer: MTLBuffer! = nil
 ```
+
 * 添加顶点和索引数组
-```
+
+```Swift
     // 3.1 在CPU创建一个浮点数数组，需要通过把它移动到一个MTLBuffer，来发送这些数据到GPU。
     let vertexData:[Float] = [
 //         0.0,  1.0, 0.0,
@@ -179,21 +199,27 @@ var indexBuffer: MTLBuffer! = nil
         0, 2, 3
     ]
 ```
+
 * 创建一个新的indexBuffer，存放索引数组
-```
+
+```Swift
   // 3.3 在GPU创建一个新的indexBuffer，存放索引数组，从CPU里输送data 
  indexBuffer = device.makeBuffer(bytes: indices, length: indices.count * 4, options: MTLResourceOptions(rawValue: UInt(0)))
  indexBuffer.label = "Indices"
 ```
+
 * 编译shader
-```
+
+```Swift
  // 6.1 通过调用device.newDefaultLibrary方法获得的MTLibrary对象访问到你项目中的预编译shaders,然后通过名字检索每个shader
  let defaultLibrary = device.newDefaultLibrary()
   let fragmentProgram = defaultLibrary?.makeFunction(name: "texture_fragment")
  let vertextProgram = defaultLibrary?.makeFunction(name: "texture_vertex")
 ```
+
 * 加载纹理
-```
+
+```Swift
  // 加载纹理
   // 1 使用Metal
    let loaded = loadTntoTextureWithDevice(device: device, name: "lena", ext: "png")
@@ -208,12 +234,15 @@ var indexBuffer: MTLBuffer! = nil
             fatalError("Error: Can not load texture")
          }
 ```
+
 * 在render方法中配置渲染命令编码器，调用`setFragmentTexture`添加纹理，`drawIndexedPrimitives`根据索引数组绘制图形。
-```
+
+```Swift
  renderEncoder.setFragmentTexture(quaTexture, at: 0)
   // 根据索引画图
  renderEncoder.drawIndexedPrimitives(type: .triangle, indexCount: indices.count, indexType: .uint32, indexBuffer: indexBuffer, indexBufferOffset: 0)
 ```
+
 * 最终效果图如图所示，对于这些原理的东西了解还不是很深，网上的资料太少，能力有限，只能琢磨一些简单的东西。
 ![效果图](/assets/img/metal_draw_picture.png)
 

@@ -99,7 +99,7 @@ theme: yilia
 ## Docs: https://hexo.io/docs/deployment.html https://github.com/OrangesChen/OrangesChen.github.io.git
 deploy:
   type: git
-  repository: https://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@github.com/OrangesChen/OrangesChen.github.io.git
+  repository: https://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@github.com/OrangesChen/OrangesChen.github.io.git
   branch: master
 
 jsonContent:

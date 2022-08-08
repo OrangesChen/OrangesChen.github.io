@@ -10,7 +10,8 @@ tags:
 
 <!--more-->
 ###### 1 首先是shader上的片元着色器转换YUV到RGB
-```
+
+```Shader
 #include <metal_stdlib>
 using namespace metal;
 #define YUV_SHADER_ARGS  VertexOut      inFrag    [[ stage_in ]],\
@@ -56,17 +57,22 @@ fragment half4 yuv_rgb(YUV_SHADER_ARGS)
 ```
 
 ###### 2 添加纹理缓存CVMetalTextureCacheRef和纹理MTLTexture变量
-```
+
+```Swift
   CVMetalTextureCacheRef _videoTextureCache;
    id<MTLTexture> _videoTexture[2];
    CVPixelBufferRef _pixelBuffer;
 ```
+
 添加转换矩阵的接收变量
-```
+
+```Swift
 @property (nonatomic, strong)  id<MTLBuffer> parametersBuffer;
 ```
+
 以下几个都是YUV转RGB的矩阵算法，给parametersBuffer赋值，拷贝到GPU中计算
-```
+
+```Swift
  _parametersBuffer = [_device newBufferWithLength:sizeof(ColorParameters) * 2 options:MTLResourceOptionCPUCacheModeDefault];
      ColorParameters matrix;
      simd::float3 A;
@@ -114,8 +120,10 @@ fragment half4 yuv_rgb(YUV_SHADER_ARGS)
      matrix.yuvToRGB = simd::float3x3{A, B, C}; 
      memcpy(self.parametersBuffer.contents, &matrix, sizeof(ColorParameters));
 ```
+
 获取每一帧视频信息生成纹理的代码
-```
+
+```Swift
 - (void)makeYUVTexture:(CVPixelBufferRef)pixelBuffer {
     CVMetalTextureRef y_texture ;
     float y_width = CVPixelBufferGetWidthOfPlane(pixelBuffer, 0);
@@ -156,6 +164,7 @@ fragment half4 yuv_rgb(YUV_SHADER_ARGS)
     }
 }
 ```
+
 ![效果图.PNG](/assets/img/yuv_rgb_picture.png)
 
-#`（最后PS： 有大神知道怎么使用Metal实现渲染到纹理的么，求指导）`
+ `（最后PS： 有大神知道怎么使用Metal实现渲染到纹理的么，求指导）`
