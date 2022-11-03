@@ -156,6 +156,86 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-flutter/flutter_source_1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/02/flutter/flutter_source_1/">Flutter 内核源码解析一Flutter 启动篇</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/02/flutter/flutter_source_1/" class="archive-article-date">
+  	<time datetime="2022-11-02T06:45:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Flutter engine <a href="https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment" target="_blank" rel="noopener">源码编译</a>，注意 Flutter Framework 对应的 engine 版本和源码的 engine 版本要保持一致。假设你已经成功编译源码，以下为 Flutter 3.0 对应的版本源码，若你使用的是其他版本的，源码可能会存在一些差异。</p>
+        
+          <a class="article-more-a" href="/2022/11/02/flutter/flutter_source_1/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">FrontEnd</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Flutter</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/02/flutter/flutter_source_1/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-flutter/flutter-books-list" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -288,7 +368,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="钩子-hook-的作用"><a href="#钩子-hook-的作用" class="headerlink" title="钩子(hook)的作用"></a>钩子(hook)的作用</h4><h6 id="组件尽量写成纯函数，如果需要外部功能和副作用，就用钩子把外部代码勾进来"><a href="#组件尽量写成纯函数，如果需要外部功能和副作用，就用钩子把外部代码勾进来" class="headerlink" title="组件尽量写成纯函数，如果需要外部功能和副作用，就用钩子把外部代码勾进来"></a>组件尽量写成纯函数，如果需要外部功能和副作用，就用钩子把外部代码勾进来</h6><h6 id="hook是React函数组件的副效应解决方案，用来为函数组件引入副效应"><a href="#hook是React函数组件的副效应解决方案，用来为函数组件引入副效应" class="headerlink" title="hook是React函数组件的副效应解决方案，用来为函数组件引入副效应"></a>hook是React函数组件的副效应解决方案，用来为函数组件引入副效应</h6><ul>
+        <h4 id="钩子-hook-的作用"><a href="#钩子-hook-的作用" class="headerlink" title="钩子(hook)的作用"></a>钩子(hook)的作用</h4><h5 id="组件尽量写成纯函数，如果需要外部功能和副作用，就用钩子把外部代码勾进来"><a href="#组件尽量写成纯函数，如果需要外部功能和副作用，就用钩子把外部代码勾进来" class="headerlink" title="组件尽量写成纯函数，如果需要外部功能和副作用，就用钩子把外部代码勾进来"></a>组件尽量写成纯函数，如果需要外部功能和副作用，就用钩子把外部代码勾进来</h5><h6 id="hook是React函数组件的副效应解决方案，用来为函数组件引入副效应"><a href="#hook是React函数组件的副效应解决方案，用来为函数组件引入副效应" class="headerlink" title="hook是React函数组件的副效应解决方案，用来为函数组件引入副效应"></a>hook是React函数组件的副效应解决方案，用来为函数组件引入副效应</h6><ul>
 <li>useState() 保存状态</li>
 <li>useCOntext() 保存上下文</li>
 <li>useRef() 保存引用</li>
@@ -551,83 +631,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2021/05/18/front-end/clean-architecture/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-front-end/root-widget" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/18/front-end/root-widget/">Flutter Root Widget</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/18/front-end/root-widget/" class="archive-article-date">
-  	<time datetime="2021-05-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>Flutter Root Widget
-        
-          <a class="article-more-a" href="/2021/05/18/front-end/root-widget/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">FrontEnd</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/18/front-end/root-widget/">展开全文 >></a>
         </p>
       
 
