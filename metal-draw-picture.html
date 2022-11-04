@@ -6,28 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://orangeschen.cn">
-  <title>Flutter 书单列表推荐 | Get Busy Living ... Or Get Busy Dying</title>
+  <title>Metal图片渲染 | Get Busy Living ... Or Get Busy Dying</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="笔者开发的时候都是在网上边看一些博客学习边开发的，对 Flutter 还没有一个比较完善的认识，开发的时候也是一直处于摸索阶段，最近就阅读了一些 Flutter 相关的书，想要系统全面的学习一下 Flutter，然后发现市面上的书大多数都是针对初学者的，主要是帮助开发者比较完善的了解 Flutter UI 层面的一些开发知识，最多涉及到 Framework 层的一些源码分析，其余都是比较简单的一些">
+  <meta name="description" content="本章内容主要是在上一篇绘制三角形的基础上添加了图片渲染的功能，分别说明了使用Metal和MetalKit中创建纹理的方法。 1、首先修改Metal shader的着色里的内容 添加顶点输入和输出的结构体  123456789101112&#x2F;&#x2F; 输入的顶点和纹理坐标   struct VertexIn &amp;#123;     packed_float3 position;     p">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Flutter 书单列表推荐">
-<meta property="og:url" content="http://orangeschen.cn/2022/08/08/flutter/flutter-books-list/index.html">
+<meta property="og:title" content="Metal图片渲染">
+<meta property="og:url" content="http://orangeschen.cn/metal-draw-picture.html">
 <meta property="og:site_name" content="Get Busy Living ... Or Get Busy Dying">
-<meta property="og:description" content="笔者开发的时候都是在网上边看一些博客学习边开发的，对 Flutter 还没有一个比较完善的认识，开发的时候也是一直处于摸索阶段，最近就阅读了一些 Flutter 相关的书，想要系统全面的学习一下 Flutter，然后发现市面上的书大多数都是针对初学者的，主要是帮助开发者比较完善的了解 Flutter UI 层面的一些开发知识，最多涉及到 Framework 层的一些源码分析，其余都是比较简单的一些">
+<meta property="og:description" content="本章内容主要是在上一篇绘制三角形的基础上添加了图片渲染的功能，分别说明了使用Metal和MetalKit中创建纹理的方法。 1、首先修改Metal shader的着色里的内容 添加顶点输入和输出的结构体  123456789101112&#x2F;&#x2F; 输入的顶点和纹理坐标   struct VertexIn &amp;#123;     packed_float3 position;     p">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://orangeschen.cn/assets/flutter/%E8%B7%A8%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%9E%E6%88%98.jpg">
-<meta property="og:image" content="http://orangeschen.cn/assets/flutter/%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%9E%E6%88%98.jpg">
-<meta property="og:image" content="http://orangeschen.cn/assets/flutter/%E8%B7%A8%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%9E%E6%88%98.jpg">
-<meta property="og:image" content="http://orangeschen.cn/assets/flutter/%E5%BC%80%E5%8F%91%E4%B9%8B%E6%97%85%E4%BB%8E%E5%8D%97%E5%88%B0%E5%8C%97.jpg">
-<meta property="og:image" content="http://orangeschen.cn/assets/flutter/%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E8%AF%A6%E8%A7%A3.jpg">
-<meta property="og:image" content="http://orangeschen.cn/assets/flutter/%E5%86%85%E6%A0%B8%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90.jpg">
-<meta property="article:published_time" content="2022-08-08T12:07:19.000Z">
-<meta property="article:modified_time" content="2022-08-08T13:38:33.010Z">
+<meta property="og:image" content="http://orangeschen.cn/assets/img/metal_draw_picture.png">
+<meta property="article:published_time" content="2018-05-08T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-08-08T13:47:10.987Z">
 <meta property="article:author" content="OrangesChen">
-<meta property="article:tag" content="Flutter">
-<meta property="article:tag" content="FrontEnd">
+<meta property="article:tag" content="Metal">
+<meta property="article:tag" content="iOS">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://orangeschen.cn/assets/flutter/%E8%B7%A8%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%9E%E6%88%98.jpg">
+<meta name="twitter:image" content="http://orangeschen.cn/assets/img/metal_draw_picture.png">
   
     <link rel="alternative" href="/atom.xml" title="Get Busy Living ... Or Get Busy Dying" type="application/atom+xml">
   
@@ -167,241 +162,111 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-flutter/flutter-books-list" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-metal-draw-picture" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Flutter 书单列表推荐
+      Metal图片渲染
     </h1>
   
 
         
-        <a href="/2022/08/08/flutter/flutter-books-list/" class="archive-article-date">
-  	<time datetime="2022-08-08T12:07:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-08-08</time>
+        <a href="/metal-draw-picture.html" class="archive-article-date">
+  	<time datetime="2018-05-08T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-09</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>笔者开发的时候都是在网上边看一些博客学习边开发的，对 Flutter 还没有一个比较完善的认识，开发的时候也是一直处于摸索阶段，最近就阅读了一些 Flutter 相关的书，想要系统全面的学习一下 Flutter，然后发现市面上的书大多数都是针对初学者的，主要是帮助开发者比较完善的了解 Flutter UI 层面的一些开发知识，最多涉及到 Framework 层的一些源码分析，其余都是比较简单的一些 API 使用的概念。<br>以下就是我阅读的一些书，翻阅的这些书的时候，发现都是大同小异，所以就想写一篇文章进行总结推荐，给一些需要学习 Flutter 的开发者提供一些参考意见。</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a href="#bvbY0">Flutter 基础与实战从入门到 App 跨平台开发</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="#cmUlr">Flutter 技术入门与实战第2版</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="#oMZMq">Flutter 跨平台开发入门与实战</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="#hZsqt">Flutter 开发之旅从南到北</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="#LWTpZ">Flutter 开发实战详解</a></td>
-<td></td>
-</tr>
-<tr>
-<td><a href="#BZ9or">Flutter 内核源码剖析</a></td>
-<td></td>
-</tr>
-</tbody></table>
+        <p>本章内容主要是在上一篇<a href="http://www.jianshu.com/p/5ce9f4f11637" target="_blank" rel="noopener">绘制三角形</a>的基础上添加了图片渲染的功能，分别说明了使用Metal和MetalKit中创建纹理的方法。</p>
+<h6 id="1、首先修改Metal-shader的着色里的内容"><a href="#1、首先修改Metal-shader的着色里的内容" class="headerlink" title="1、首先修改Metal shader的着色里的内容"></a>1、首先修改Metal shader的着色里的内容</h6><ul>
+<li>添加顶点输入和输出的结构体</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 输入的顶点和纹理坐标</span><br><span class="line">   struct VertexIn</span><br><span class="line"> &#123;</span><br><span class="line">     packed_float3 position;</span><br><span class="line">     packed_float2 st;</span><br><span class="line"> &#125;;</span><br><span class="line">&#x2F;&#x2F; 输出顶点和纹理坐标，因为需要渲染纹理，可以不用输入顶点颜色</span><br><span class="line"> struct VertexOut</span><br><span class="line"> &#123;</span><br><span class="line">    float4 position [[position]];</span><br><span class="line">    float2 st;</span><br><span class="line"> &#125;;</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
+<ul>
+<li>顶点函数和片段函数内容</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 添加纹理顶点坐标</span><br><span class="line">vertex VertexOut texture_vertex(uint vid[[vertex_id]], const device VertexIn *vertex_array[[buffer(0)]])</span><br><span class="line">&#123;</span><br><span class="line">    VertexOut outVertex;</span><br><span class="line">    VertexIn vertexIn &#x3D; vertex_array[vid];</span><br><span class="line">    outVertex.position &#x3D; float4(vertexIn.position, 1.0);</span><br><span class="line">    outVertex.st &#x3D; vertexIn.st;</span><br><span class="line">&#x2F;&#x2F;    outVertex.color &#x3D; color[vid];</span><br><span class="line">    return outVertex;</span><br><span class="line">&#125;;</span><br><span class="line">fragment float4 texture_fragment(VertextInOut inFrag[[stage_in]], texture2d&lt;float&gt; texas[[texture(0)]])</span><br><span class="line">&#123;</span><br><span class="line">    constexpr sampler defaultSampler;</span><br><span class="line">    float4 rgba &#x3D; texas.sample(defaultSampler, inFrag.st).rgba;</span><br><span class="line">    return rgba;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<p>这个列表的书籍我是按照从易➡️难来排序的，其实只有 《Flutter 开发之旅从南到北》和 《Flutter 开发实战详解》这两本书是我从头到尾仔细阅读完的，其余的我都是大概翻阅了下，只针对一些不同的章节重点去看。<br>如果是完全零基础的且前端开发经验比较少的读者，推荐 《Flutter 基础与实战从入门到 App 跨平台开发》这本书，这本书感觉主要就是针对零基础的，属于手把手式教学，比较通俗易懂。<br>如果是属于有一定前端开发基础但没有 Flutter 开发经验的，推荐 《Flutter 开发实战详解》 这本书，内容相对 《Flutter 开发之旅从南到北》更加完善，当然如果你已经有 《Flutter 开发之旅从南到北》这本书了的话，那就没必要再看 Flutter 开发实战详解》这本了。<br>最后不用说啦，如果是要进阶的话，现在也就只有 《Flutter 内核源码剖析》这本书了，应该也是最难啃的一本书，不过这本书我还没看，所以也无法提供太多的建议。<br>关于每一本书的简介，我在后面都有列出来，供大家参考。</p>
-<h2 id="Flutter-基础与实战从入门到-App-跨平台开发"><a href="#Flutter-基础与实战从入门到-App-跨平台开发" class="headerlink" title="Flutter 基础与实战从入门到 App 跨平台开发"></a>Flutter 基础与实战从入门到 App 跨平台开发</h2><table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>书名</strong></td>
-<td>Flutter 基础与实战入门到 App 跨平台开发</td>
-</tr>
-<tr>
-<td><strong>作者</strong></td>
-<td>赵龙</td>
-</tr>
-<tr>
-<td><strong>出版时间</strong></td>
-<td>2021-01-01</td>
-</tr>
-<tr>
-<td><strong>简介</strong></td>
-<td>本书旨在帮助读者快速入门 Flutter、掌握 Flutter 开发技能，从而具备一定的 Flutter 跨平台开发能力</td>
-</tr>
-<tr>
-<td><strong>示例代码</strong></td>
-<td><a href="https://github.com/zhaolongs/flutter_book_jixie" target="_blank" rel="noopener">https://github.com/zhaolongs/flutter_book_jixie</a></td>
-</tr>
-</tbody></table>
-<p><img src="/assets/flutter/%E8%B7%A8%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%9E%E6%88%98.jpg" alt="目录"></p>
+<h6 id="2、加载图片创建Metal纹理"><a href="#2、加载图片创建Metal纹理" class="headerlink" title="2、加载图片创建Metal纹理"></a>2、加载图片创建Metal纹理</h6><ul>
+<li>Metal Framework中在处理贴图上使用<code>CGImage</code>在<code>CGContext</code>上<code>draw</code>的方法来取得图像, 但是通过<code>draw</code>方法绘制的图像是上下颠倒的。</li>
+<li>首先要说的是，在iOS的不同framework中使用着不同的坐标系：</li>
+</ul>
 <blockquote>
-<p>整本书内容主要涉及到的是 UI 层面的知识，这本书比较适合初学者，简单易懂，跟其他比较大的不同是这本书是彩印的，图文并茂，图片说明也很详细，属于手把手教学指导，基础内容比较全面且详细，各种 UI 布局及使用教程，解说详细，截图上也会有对应的说明标志。<br>书中的截图主要就是一些示例的截图，关于一些内容相关的逻辑视图比较少，不方便加深记忆。不过可能也是因为，书本内容都比较简单，入门级别，没有太过深入的东西，属于工具书类别了。</p>
+<p>UIKit － y轴向下<br> Core Graphics(Quartz) － y轴向上<br> OpenGL ES － y轴向上<br> UIKit是iPhone SDK的Cocoa Touch层的核心framework，是iPhone应用程序图形界面和事件驱动的基础，它和传统windows桌面一样，坐标系是y轴向下的; Core Graphics(Quartz)一个基于2D的图形绘制引擎，它的坐标系则是y轴向上的；而OpenGL ES是iPhone SDK的2D和3D绘制引擎，它使用左手坐标系，它的坐标系也是y轴向上的，如果不考虑z轴，在 二维下它的坐标系和Quartz是一样的。</p>
 </blockquote>
-<h2 id="Flutter-技术入门与实战第2版"><a href="#Flutter-技术入门与实战第2版" class="headerlink" title="Flutter 技术入门与实战第2版"></a>Flutter 技术入门与实战第2版</h2><table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>书名</strong></td>
-<td>Flutter 技术入门与实战第2版</td>
-</tr>
-<tr>
-<td><strong>作者</strong></td>
-<td>亢少军</td>
-</tr>
-<tr>
-<td><strong>出版时间</strong></td>
-<td>2019-12-01</td>
-</tr>
-<tr>
-<td><strong>简介</strong></td>
-<td>本书由资深架构师撰写，详细讲解 Flutter 的基本概念和使用技巧。既有基础知识，又有丰富示例，并包括详细案例的操作步骤，实操性强。还有配套网站提供了完整案例代码和视频课程，可帮助读者轻松掌握基础知识，快速进入实战。</td>
-</tr>
-</tbody></table>
-<p><img src="/assets/flutter/%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%9E%E6%88%98.jpg" alt="目录"></p>
-<blockquote>
-<p>整本书内容主要涉及到的是 UI 层面的知识，适合初学者。内容比较简单，里面没有什么底层知识，主要是 UI 的使用等基础知识，入门级别。相对于其他入门级别的书，这本书说实话没有什么优势，属于比较普通的了，没发现什么亮点。</p>
+<h3 id="注：不知道是不是API更新等原因，有小伙伴说图片倒置的问题还是存在，经过测试，发现CGContextDrawImage绘制的图片已经不需要处理倒置的问题了，具体原因还有待证实，或者说我这些观点有误的话希望有人能详细指出"><a href="#注：不知道是不是API更新等原因，有小伙伴说图片倒置的问题还是存在，经过测试，发现CGContextDrawImage绘制的图片已经不需要处理倒置的问题了，具体原因还有待证实，或者说我这些观点有误的话希望有人能详细指出" class="headerlink" title="注：不知道是不是API更新等原因，有小伙伴说图片倒置的问题还是存在，经过测试，发现CGContextDrawImage绘制的图片已经不需要处理倒置的问题了，具体原因还有待证实，或者说我这些观点有误的话希望有人能详细指出"></a><code>注：不知道是不是API更新等原因，有小伙伴说图片倒置的问题还是存在，经过测试，发现CGContextDrawImage绘制的图片已经不需要处理倒置的问题了，具体原因还有待证实，或者说我这些观点有误的话希望有人能详细指出</code></h3><blockquote>
+<p><code>以下内容可以忽略😆</code><br>当通过CGContextDrawImage绘制图片到一个context中时，如果传入的是UIImage的CGImageRef，因为UIKit和CG坐标系y轴相反，所以图片绘制将会上下颠倒。解决方法有以下几种，<br>解决方法一：在绘制到context前通过矩阵垂直翻转坐标系<br>解决方法二：使用UIImage的drawInRect函数，该函数内部能自动处理图片的正确方向<br>解决方法三：垂直翻转投影矩阵,这种方法通过设置上下颠倒的投影矩阵，使得原本y轴向上的GL坐标系看起来变成了y轴向下，并且坐标原点从屏幕左下角移到了屏幕左上角。如果你习惯使用y轴向下的坐标系进行二维操作，可以使用这种方法，同时原本颠倒的图片经过再次颠倒后回到了正确的方向：<br>  本人能力有限，对于我来说矩阵的处理还是有难度的，所以选择第二种相对简单一些的方法来解决图片上下颠倒的问题。</p>
 </blockquote>
-<h2 id="Flutter-跨平台开发入门与实战"><a href="#Flutter-跨平台开发入门与实战" class="headerlink" title="Flutter 跨平台开发入门与实战"></a>Flutter 跨平台开发入门与实战</h2><table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>书名</strong></td>
-<td>Flutter 跨平台开发入门与实战</td>
-</tr>
-<tr>
-<td><strong>作者</strong></td>
-<td>向治洪</td>
-</tr>
-<tr>
-<td><strong>出版时间</strong></td>
-<td>2021-01-01</td>
-</tr>
-<tr>
-<td><strong>简介</strong></td>
-<td>本书共 14 章，涵盖 Flutter 跨平台开发所需的各方面知识，循序渐进的讲解有助于读者更深入地学习 Flutter 知识</td>
-</tr>
-</tbody></table>
-<p><img src="/assets/flutter/%E8%B7%A8%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%9E%E6%88%98.jpg" alt="目录"></p>
-<blockquote>
-<p>适合初学者观看，内容算是比较全面的，跟其他入门级图书差别不大，关于事件处理这一块内容和其他的对比稍微有些不同，其余差不多。作为入门书籍来说，算是比较全面的了，整本书的内容也没有很多，300页，总的来说没有什么太大的缺点。</p>
-</blockquote>
-<h2 id="Flutter-开发之旅从南到北"><a href="#Flutter-开发之旅从南到北" class="headerlink" title="Flutter 开发之旅从南到北"></a>Flutter 开发之旅从南到北</h2><table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>书名</strong></td>
-<td>Flutter 开发之旅从南到北</td>
-</tr>
-<tr>
-<td><strong>作者</strong></td>
-<td>杨加康</td>
-</tr>
-<tr>
-<td><strong>出版时间</strong></td>
-<td>2020-11-01</td>
-</tr>
-<tr>
-<td><strong>简介</strong></td>
-<td>本书主要讲述 Flutter 框架的核心技术，有助于读者深入理解 Flutter 技术的完整知识体系。</td>
-</tr>
-</tbody></table>
-<p><img src="/assets/flutter/%E5%BC%80%E5%8F%91%E4%B9%8B%E6%97%85%E4%BB%8E%E5%8D%97%E5%88%B0%E5%8C%97.jpg" alt="目录"></p>
-<blockquote>
-<p>整本书没有太深的内容，有一些原理介绍，主要是涉及 Framework 层面的，未涉及引擎方面源码分析，入门级别，体系比较完整，有助于全面的理解 Flutter 完整的体系。</p>
-</blockquote>
-<h2 id="Flutter-开发实战详解"><a href="#Flutter-开发实战详解" class="headerlink" title="Flutter 开发实战详解"></a>Flutter 开发实战详解</h2><table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>书名</strong></td>
-<td>Flutter 开发实战详解</td>
-</tr>
-<tr>
-<td><strong>作者</strong></td>
-<td>郭树煜</td>
-</tr>
-<tr>
-<td><strong>出版时间</strong></td>
-<td>2020-05-01</td>
-</tr>
-<tr>
-<td><strong>简介</strong></td>
-<td>《 Flutter 开发实战详解 》以实战为导向，由浅入深地介绍了 Flutter 开发过程中的基础体系、实战技巧和源码分析。通过本书，读者可以快速掌握 Flutter 的开发技能，并通过实战学习 Flutter 的源码设计。</td>
-</tr>
-<tr>
-<td><strong>示例代码</strong></td>
-<td><a href="https://github.com/CarGuo/gsy_github_app_flutter" target="_blank" rel="noopener">https://github.com/CarGuo/gsy_github_app_flutter</a></td>
-</tr>
-</tbody></table>
-<p><img src="/assets/flutter/%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E8%AF%A6%E8%A7%A3.jpg" alt="目录"></p>
-<blockquote>
-<p>由浅入深地介绍了 Flutter 开发过程中的基础体系、实战技巧和源码分析，内容全面详细，相较与前面那几本，这本内容算是稍微深入一些的，涉及到 Framework 层源码分析，所以适合有一定 Flutter 开发的读者阅读。这本书是我看的比较仔细的一本了，是我认为看过的所有入门级别当中最好的一本书。</p>
-</blockquote>
-<h2 id="Flutter-内核源码剖析"><a href="#Flutter-内核源码剖析" class="headerlink" title="Flutter 内核源码剖析"></a><strong>Flutter 内核源码剖析</strong></h2><table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>书名</strong></td>
-<td>Flutter 内核源码剖析</td>
-</tr>
-<tr>
-<td><strong>作者</strong></td>
-<td>赵裕</td>
-</tr>
-<tr>
-<td><strong>出版时间</strong></td>
-<td>2022-01-01</td>
-</tr>
-<tr>
-<td><strong>简介</strong></td>
-<td>涉及源码的获取与构建，功能模块的实现以及 Flutter 应用的性能探测，监控和调优，横跨 Java、C++、Dart，覆盖 Flutter 1.0  和 2.0 版本。</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p>这本书是在我的阅读清单里的，还没开始看，所以书的质量或者内容接受难易程度目前还是未知，不过这本算是市面上针对 Flutter 底层源码分析的唯一一本书了，想要进阶的话，还是推荐阅读这本书。</p>
-</blockquote>
-<p><img src="/assets/flutter/%E5%86%85%E6%A0%B8%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90.jpg" alt="目录"></p>
-<blockquote>
-<p>顾名思义，通过这本书的书名就知道这本书的内容涉及到源码层分析，适合对跨平台技术感兴趣的开发人员、前端开发人员、Android/iOS 开发人员，希望深入了解 Flutter 或有性能调优需求的开发人员，对移动端渲染框架感兴趣的开发人员，以及渴望深入了解 Flutter 底层实现的开发人员阅读。</p>
-</blockquote>
+<ul>
+<li>新建Swift文件，引入头文件</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Metal</span><br><span class="line"><span class="keyword">import</span> UIKit</span><br><span class="line"><span class="keyword">import</span> CoreGraphics</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>添加图片加载方法，调用<code>makeTexture()</code>方法生成纹理</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> type: <span class="type">MTLTextureType!</span></span><br><span class="line"><span class="keyword">var</span> texture: <span class="type">MTLTexture!</span></span><br><span class="line"><span class="comment">// 在处理贴图上使用CGImage在CGContext上draw的方法来取得图像, 但是通过draw方法绘制的图像是上下颠倒的，可以通过UIImage的drawInRect函数，该函数内部能自动处理图片的正确方向，生成纹理</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">loadIntoTextureWithDevice</span><span class="params">(device: MTLDevice, name: String, ext: String)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> path = <span class="type">Bundle</span>.main.path(forResource: name, ofType: ext)</span><br><span class="line">    <span class="keyword">if</span> !(path != <span class="literal">nil</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> image = <span class="type">UIImage</span>(contentsOfFile: path!)</span><br><span class="line">    <span class="keyword">let</span> width = (image?.cgImage)!.width</span><br><span class="line">    <span class="keyword">let</span> height = (image?.cgImage)!.height</span><br><span class="line">    <span class="keyword">let</span> dataSize = width * height * <span class="number">4</span></span><br><span class="line">    <span class="keyword">let</span> data = <span class="type">UnsafeMutablePointer</span>&lt;<span class="type">UInt8</span>&gt;.allocate(capacity: dataSize)</span><br><span class="line">    <span class="keyword">let</span> colorSpace = <span class="type">CGColorSpaceCreateDeviceRGB</span>()</span><br><span class="line">    <span class="keyword">let</span> context = <span class="type">CGContext</span>(data: data, width: width, height: height, bitsPerComponent: <span class="number">8</span>, bytesPerRow: <span class="number">4</span> * width, space: colorSpace, bitmapInfo: <span class="type">CGImageAlphaInfo</span>.premultipliedLast.rawValue);</span><br><span class="line">    context?.draw((image?.cgImage)!, <span class="keyword">in</span>: <span class="type">CGRect</span>(x: <span class="number">0</span>, y: <span class="number">0</span>, width: <span class="type">CGFloat</span>(width), height: <span class="type">CGFloat</span>(height)))</span><br><span class="line">    <span class="comment">// 通过UIImage的drawInRect函数，该函数内部能自动处理图片的正确方向 </span></span><br><span class="line">   <span class="comment">// 不知道是不是API更新了 已经不需要这一步处理图片方向了 </span></span><br><span class="line">   <span class="comment">// UIGraphicsPushContext(context!);</span></span><br><span class="line">   <span class="comment">// image?.draw(in: CGRect(x: 0, y: 0, width: CGFloat(width), height: CGFloat(height)))</span></span><br><span class="line">    <span class="keyword">let</span> textDes = <span class="type">MTLTextureDescriptor</span>.texture2DDescriptor(pixelFormat: .rgba8Unorm, width: <span class="type">Int</span>(width), height: <span class="type">Int</span>(height), mipmapped: <span class="literal">false</span>)</span><br><span class="line">    type = textDes.textureType</span><br><span class="line">    texture = device.makeTexture(descriptor: textDes)</span><br><span class="line">    <span class="keyword">if</span> !(texture != <span class="literal">nil</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">    texture.replace(region: <span class="type">MTLRegionMake2D</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="type">Int</span>(width), <span class="type">Int</span>(height)), mipmapLevel: <span class="number">0</span>, withBytes: context!.data!, bytesPerRow: width * <span class="number">4</span>)</span><br><span class="line">   <span class="comment">// UIGraphicsPopContext()</span></span><br><span class="line">    free(data)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>MetalKit Framework则直接提供了<code>MTKTextureLoader</code>创建纹理</li>
+<li>引入MetalKit头文件</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"><span class="keyword">import</span> MetalKit</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>MTKTextureLoader</code>加载图片创建纹理，<code>MTKTextureLoader</code>中提供了异步和同步加载的方法</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">TextureError</span>: <span class="title">Error</span> </span>&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="type">UIImageCreationError</span></span><br><span class="line">    <span class="keyword">case</span> <span class="type">MTKTextureLoaderError</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*----------创建Metal纹理--------------</span></span><br><span class="line"><span class="comment"> *  @param device 设备</span></span><br><span class="line"><span class="comment"> *  @param name   图片名称</span></span><br><span class="line"><span class="comment"> *  @retun MTLTexture 纹理</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">makeTexture</span><span class="params">(device: MTLDevice, name: String)</span></span> <span class="keyword">throws</span> -&gt; <span class="type">MTLTexture</span> &#123;</span><br><span class="line">    <span class="keyword">guard</span> <span class="keyword">let</span> image = <span class="type">UIImage</span>(named: name) <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="type">TextureError</span>.<span class="type">UIImageCreationError</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 处理后的图片是倒置，要先将其倒置过来才能显示出正图像, 或者修改纹理坐标，将纹理坐标左上角设置为(0,0)，这一步骤可以省略</span></span><br><span class="line">    <span class="keyword">let</span> mirrorImage = <span class="type">UIImage</span>(cgImage: (image.cgImage)!, scale: <span class="number">1</span>, orientation: <span class="type">UIImageOrientation</span>.downMirrored)</span><br><span class="line">    <span class="keyword">let</span> scaledImage = <span class="type">UIImage</span>.scaleToSize(mirrorImage, size: image.size)</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> textureLoader = <span class="type">MTKTextureLoader</span>(device: device)</span><br><span class="line">        <span class="keyword">let</span> textureLoaderOption:[<span class="type">String</span>: <span class="type">NSNumber</span>] = [ <span class="type">MTKTextureLoaderOptionSRGB</span>: <span class="literal">false</span>]</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 异步加载</span></span><br><span class="line">        <span class="comment">//        try textureLoader.newTexture(with: image.cgImage!, options: textureLoaderOption, completionHandler: &#123; (&lt;#MTLTexture?#&gt;, &lt;#Error?#&gt;) in</span></span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">        <span class="comment">//        &#125;)</span></span><br><span class="line">        <span class="comment">// 同步根据图片创建新的Metal纹理</span></span><br><span class="line">        <span class="comment">// Synchronously loads image data and creates a new Metal texturefrom a given bitmap image.</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">try</span> textureLoader.newTexture(with: scaledImage.cgImage!, options: textureLoaderOption)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">// 自定义UIImage的类方法，设置图片大小</span></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">UIImage</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">scaleToSize</span>(<span class="title">_</span> <span class="title">image</span>: <span class="title">UIImage</span>, <span class="title">size</span>: <span class="title">CGSize</span>)-&gt;<span class="title">UIImage</span> </span>&#123;</span><br><span class="line">        <span class="type">UIGraphicsBeginImageContext</span>(size)</span><br><span class="line">        image.draw(<span class="keyword">in</span>: <span class="type">CGRect</span>(origin: <span class="type">CGPoint</span>.zero, size: size))</span><br><span class="line">        <span class="keyword">let</span> scaledImage = <span class="type">UIGraphicsGetImageFromCurrentImageContext</span>()</span><br><span class="line">        <span class="type">UIGraphicsEndImageContext</span>()</span><br><span class="line">        <span class="keyword">return</span> scaledImage!</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="3、获取纹理坐标，渲染图片"><a href="#3、获取纹理坐标，渲染图片" class="headerlink" title="3、获取纹理坐标，渲染图片"></a>3、获取纹理坐标，渲染图片</h5><ul>
+<li>之前绘制三角形是使用顶点绘制的，这次使用索引绘制一个四边形。</li>
+<li>添加纹理属性</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> quaTexture: <span class="type">MTLTexture!</span> = <span class="literal">nil</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>添加顶点buffer</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> indexBuffer: <span class="type">MTLBuffer!</span> = <span class="literal">nil</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>添加顶点和索引数组</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">    <span class="comment">// 3.1 在CPU创建一个浮点数数组，需要通过把它移动到一个MTLBuffer，来发送这些数据到GPU。</span></span><br><span class="line">    <span class="keyword">let</span> vertexData:[<span class="type">Float</span>] = [</span><br><span class="line"><span class="comment">//         0.0,  1.0, 0.0,</span></span><br><span class="line"><span class="comment">//        -1.0, -1.0, 0.0,</span></span><br><span class="line"><span class="comment">//         1.0, -1.0, 0.0</span></span><br><span class="line">        <span class="comment">//position      s, t</span></span><br><span class="line">        -<span class="number">0.5</span>, -<span class="number">0.5</span>, <span class="number">0</span>,  <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">         <span class="number">0.5</span>, -<span class="number">0.5</span>, <span class="number">0</span>,  <span class="number">1</span>, <span class="number">0</span>,</span><br><span class="line">         <span class="number">0.5</span>,  <span class="number">0.5</span>, <span class="number">0</span>,  <span class="number">1</span>, <span class="number">1</span>,</span><br><span class="line">        -<span class="number">0.5</span>,  <span class="number">0.5</span>, <span class="number">0</span>,  <span class="number">0</span>, <span class="number">1</span>,</span><br><span class="line">    ]</span><br><span class="line">    <span class="keyword">let</span> <span class="built_in">indices</span>:[<span class="type">Int32</span>] = [</span><br><span class="line">        <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>,</span><br><span class="line">        <span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span></span><br><span class="line">    ]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建一个新的indexBuffer，存放索引数组</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// 3.3 在GPU创建一个新的indexBuffer，存放索引数组，从CPU里输送data </span></span><br><span class="line">indexBuffer = device.makeBuffer(bytes: <span class="built_in">indices</span>, length: <span class="built_in">indices</span>.<span class="built_in">count</span> * <span class="number">4</span>, options: <span class="type">MTLResourceOptions</span>(rawValue: <span class="type">UInt</span>(<span class="number">0</span>)))</span><br><span class="line">indexBuffer.label = <span class="string">"Indices"</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>编译shader</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 6.1 通过调用device.newDefaultLibrary方法获得的MTLibrary对象访问到你项目中的预编译shaders,然后通过名字检索每个shader</span></span><br><span class="line"><span class="keyword">let</span> defaultLibrary = device.newDefaultLibrary()</span><br><span class="line"> <span class="keyword">let</span> fragmentProgram = defaultLibrary?.makeFunction(name: <span class="string">"texture_fragment"</span>)</span><br><span class="line"><span class="keyword">let</span> vertextProgram = defaultLibrary?.makeFunction(name: <span class="string">"texture_vertex"</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>加载纹理</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 加载纹理</span></span><br><span class="line"> <span class="comment">// 1 使用Metal</span></span><br><span class="line">  <span class="keyword">let</span> loaded = loadTntoTextureWithDevice(device: device, name: <span class="string">"lena"</span>, ext: <span class="string">"png"</span>)</span><br><span class="line">   <span class="keyword">if</span> !loaded &#123;</span><br><span class="line">           <span class="built_in">print</span>(<span class="string">"Failed to load texture"</span>)</span><br><span class="line">       &#125;</span><br><span class="line">   quaTexture = texture</span><br><span class="line"><span class="comment">// 2 使用MetalKit</span></span><br><span class="line">   <span class="keyword">do</span> &#123;</span><br><span class="line">  quaTexture = <span class="keyword">try</span> makeTexture(device: device, name: <span class="string">"lena"</span>)</span><br><span class="line">         &#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">           <span class="built_in">fatalError</span>(<span class="string">"Error: Can not load texture"</span>)</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在render方法中配置渲染命令编码器，调用<code>setFragmentTexture</code>添加纹理，<code>drawIndexedPrimitives</code>根据索引数组绘制图形。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">renderEncoder.setFragmentTexture(quaTexture, at: <span class="number">0</span>)</span><br><span class="line"> <span class="comment">// 根据索引画图</span></span><br><span class="line">renderEncoder.drawIndexedPrimitives(type: .triangle, indexCount: <span class="built_in">indices</span>.<span class="built_in">count</span>, indexType: .uint32, indexBuffer: indexBuffer, indexBufferOffset: <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>最终效果图如图所示，对于这些原理的东西了解还不是很深，网上的资料太少，能力有限，只能琢磨一些简单的东西。<br><img src="/assets/img/metal_draw_picture.png" alt="效果图"></li>
+</ul>
+<p>如果对Metal感兴趣的可以下载<a href="https://github.com/turner/HelloMetal" target="_blank" rel="noopener">Metal Swift Demo</a>, GitHub上偶然看到别人写的Demo，里面有纹理和矩阵，ModelIO和MetalKit的结合使用等例子。</p>
+<p>最后献上<a href="https://github.com/OrangesChen/Metal" target="_blank" rel="noopener">Demo例子</a></p>
 
       
 
@@ -446,11 +311,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Flutter</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Metal</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">FrontEnd</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
         		</li>
       		
 		</ul>
@@ -506,7 +371,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://orangeschen.cn/2022/08/08/flutter/flutter-books-list/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://orangeschen.cn/metal-draw-picture.html" alt="微信分享二维码">
     </div>
 </div>
 
@@ -520,18 +385,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2022/11/02/flutter/flutter_source_1/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/metal-yuv-to-rgb.html" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          Flutter 内核源码解析一Flutter 启动篇
+          Metal实现YUV转RGB渲染视频
         
       </div>
     </a>
   
   
-    <a href="/2021/05/18/front-end/clean-architecture/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Clean Architecture</div>
+    <a href="/metal-learn-base.html" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Metal入门（使用Metal画一个三角形）</div>
       <i class="icon-circle-right"></i>
     </a>
   
