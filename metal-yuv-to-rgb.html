@@ -6,22 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://orangeschen.cn">
-  <title>iOS-private-api-checker私有API检测工具使用详细步骤 | Get Busy Living ... Or Get Busy Dying</title>
+  <title>Metal实现YUV转RGB渲染视频 | Get Busy Living ... Or Get Busy Dying</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="iOS-private-api-checker私有API检查详细步骤（涉及到 Python、Flask、sqlite 环境）1、下载iOS-private-api-checker-master https:&#x2F;&#x2F;github.com&#x2F;hustcc&#x2F;iOS-private-api-checker 2、下载已经build好的ios_private.db库(本人能力有限，不会build，这个是大神buil">
+  <meta name="description" content="本次例子使用的是AVFoundation提供的AVCaptureVideoDataOutput获取每一帧的CVPixelBufferRef，详细步骤就不说了，网上有很多例子，这篇文章主要是介绍Metal中实现YUV转RGB格式的一些主要步骤，和OpenGL中的步骤差不多，主要是API和着色器不同，思路是一样的，这篇文章适合熟悉OpenGL视频渲染和有Metal基础的人观看，代码就不一一注释了，主要">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS-private-api-checker私有API检测工具使用详细步骤">
-<meta property="og:url" content="http://orangeschen.cn/2018/04/02/private-api-checker/index.html">
+<meta property="og:title" content="Metal实现YUV转RGB渲染视频">
+<meta property="og:url" content="http://orangeschen.cn/metal-yuv-to-rgb.html">
 <meta property="og:site_name" content="Get Busy Living ... Or Get Busy Dying">
-<meta property="og:description" content="iOS-private-api-checker私有API检查详细步骤（涉及到 Python、Flask、sqlite 环境）1、下载iOS-private-api-checker-master https:&#x2F;&#x2F;github.com&#x2F;hustcc&#x2F;iOS-private-api-checker 2、下载已经build好的ios_private.db库(本人能力有限，不会build，这个是大神buil">
+<meta property="og:description" content="本次例子使用的是AVFoundation提供的AVCaptureVideoDataOutput获取每一帧的CVPixelBufferRef，详细步骤就不说了，网上有很多例子，这篇文章主要是介绍Metal中实现YUV转RGB格式的一些主要步骤，和OpenGL中的步骤差不多，主要是API和着色器不同，思路是一样的，这篇文章适合熟悉OpenGL视频渲染和有Metal基础的人观看，代码就不一一注释了，主要">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://orangeschen.cn/assets/img/checker_upload.png">
-<meta property="article:published_time" content="2018-04-01T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-08-08T13:49:44.823Z">
+<meta property="og:image" content="http://orangeschen.cn/assets/img/yuv_rgb_picture.png">
+<meta property="article:published_time" content="2018-05-08T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-08-08T13:49:11.752Z">
 <meta property="article:author" content="OrangesChen">
+<meta property="article:tag" content="Metal">
 <meta property="article:tag" content="iOS">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://orangeschen.cn/assets/img/checker_upload.png">
+<meta name="twitter:image" content="http://orangeschen.cn/assets/img/yuv_rgb_picture.png">
   
     <link rel="alternative" href="/atom.xml" title="Get Busy Living ... Or Get Busy Dying" type="application/atom+xml">
   
@@ -184,53 +185,43 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-private-api-checker" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-metal-yuv-to-rgb" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      iOS-private-api-checker私有API检测工具使用详细步骤
+      Metal实现YUV转RGB渲染视频
     </h1>
   
 
         
-        <a href="/2018/04/02/private-api-checker/" class="archive-article-date">
-  	<time datetime="2018-04-01T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-02</time>
+        <a href="/metal-yuv-to-rgb.html" class="archive-article-date">
+  	<time datetime="2018-05-08T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-09</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="iOS-private-api-checker私有API检查详细步骤（涉及到-Python、Flask、sqlite-环境）"><a href="#iOS-private-api-checker私有API检查详细步骤（涉及到-Python、Flask、sqlite-环境）" class="headerlink" title="iOS-private-api-checker私有API检查详细步骤（涉及到 Python、Flask、sqlite 环境）"></a>iOS-private-api-checker私有API检查详细步骤（涉及到 Python、Flask、sqlite 环境）</h3><p>1、下载iOS-private-api-checker-master <a href="https://github.com/hustcc/iOS-private-api-checker" target="_blank" rel="noopener">https://github.com/hustcc/iOS-private-api-checker</a></p>
-<p>2、下载已经build好的ios_private.db库(本人能力有限，不会build，这个是大神build好的，sdk7.0版本，不是最新的，所以有些私有库查不出来(PS: 或者有些已经公开的库检测为私有库！！详情请看上面的链接，github上有教程，写这篇文章主要是想尝试一下如何使用这个工具，准确性不敢保证)，github上有教程，有能力的可以自己build^^)，将 ios_private.db 放入到项目的根目录，主要修改可写权限；</p>
-<p>（备注：ios_private.db 下载地址： 链接: <a href="https://pan.baidu.com/s/1d7YlSa" target="_blank" rel="noopener">https://pan.baidu.com/s/1d7YlSa</a> 密码: fimx）</p>
+        <p>本次例子使用的是<code>AVFoundation</code>提供的<code>AVCaptureVideoDataOutput</code>获取每一帧的<code>CVPixelBufferRef</code>，详细步骤就不说了，网上有很多例子，这篇文章主要是介绍Metal中实现YUV转RGB格式的一些主要步骤，和OpenGL中的步骤差不多，主要是API和着色器不同，思路是一样的，这篇文章适合熟悉<code>OpenGL</code>视频渲染和有<code>Metal</code>基础的人观看，代码就不一一注释了，主要是本人理解的也不是很深，怕误人子弟。（示例代码为横屏显示，所以看到的屏幕是横屏显示）<br><a href="https://github.com/OrangesChen/Metal/tree/VideoCapture" target="_blank" rel="noopener">源代码下载地址</a></p>
 <a id="more"></a>
-<p>3、在根目录创建一个 tmp 目录（如果没有的话，注意修改可写权限），或者将tmp的文件夹的权限设置为777，先进terminal，然后输入Wally的命令，后面添加你的目录名。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod -R 777 目录名</span><br></pre></td></tr></table></figure>
+<h6 id="1-首先是shader上的片元着色器转换YUV到RGB"><a href="#1-首先是shader上的片元着色器转换YUV到RGB" class="headerlink" title="1 首先是shader上的片元着色器转换YUV到RGB"></a>1 首先是shader上的片元着色器转换YUV到RGB</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;metal_stdlib&gt;</span><br><span class="line">using namespace metal;</span><br><span class="line">#define YUV_SHADER_ARGS  VertexOut      inFrag    [[ stage_in ]],\</span><br><span class="line">texture2d&lt;float&gt;  lumaTex     [[ texture(0) ]],\</span><br><span class="line">texture2d&lt;float&gt;  chromaTex     [[ texture(1) ]],\</span><br><span class="line">sampler bilinear [[ sampler(0) ]], \</span><br><span class="line">constant ColorParameters *colorParameters [[ buffer(0) ]]&#x2F;&#x2F; RGB到YUV的转换矩阵</span><br><span class="line">struct VertexIn&#123;</span><br><span class="line">    packed_float3 position;</span><br><span class="line">    packed_float4 color;</span><br><span class="line">    packed_float2 st;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct VertexOut&#123;</span><br><span class="line">    float4 position [[position]];  &#x2F;&#x2F;1</span><br><span class="line">    float4 color;</span><br><span class="line">    float2 st;</span><br><span class="line">&#125;;</span><br><span class="line">struct ColorParameters</span><br><span class="line">&#123;</span><br><span class="line">    float3x3 yuvToRGB;</span><br><span class="line">&#125;;</span><br><span class="line">vertex VertexOut texture_vertex(</span><br><span class="line">                              const device VertexIn* vertex_array [[ buffer(0) ]],           &#x2F;&#x2F;1</span><br><span class="line">                              unsigned int vid [[ vertex_id ]]) &#123;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    VertexIn VertexIn &#x3D; vertex_array[vid];</span><br><span class="line">    </span><br><span class="line">    VertexOut VertexOut;</span><br><span class="line">    VertexOut.position &#x3D; float4(VertexIn.position,1);  &#x2F;&#x2F;3</span><br><span class="line">    VertexOut.color &#x3D; VertexIn.color;</span><br><span class="line">    VertexOut.st &#x3D; VertexIn.st;</span><br><span class="line">    return VertexOut;</span><br><span class="line">&#125;</span><br><span class="line">fragment half4 yuv_rgb(YUV_SHADER_ARGS)</span><br><span class="line">&#123;</span><br><span class="line">    float3 yuv;</span><br><span class="line">    yuv.x &#x3D; lumaTex.sample(bilinear, inFrag.st).r;</span><br><span class="line">    yuv.yz &#x3D; chromaTex.sample(bilinear,inFrag.st).rg - float2(0.5);</span><br><span class="line">    return half4(half3(colorParameters-&gt;yuvToRGB * yuv),yuv.x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p> 4、在终端输入sqlite3 , 出现这个表示已经安装了sqlite，没有则参考 <a href="http://www.runoob.com/sqlite/sqlite-installation.html" target="_blank" rel="noopener">http://www.runoob.com/sqlite/sqlite-installation.html</a> 进行安装</p>
-<h4 id="安装sqlite"><a href="#安装sqlite" class="headerlink" title="安装sqlite"></a>安装sqlite</h4><p>5、配置flask环境</p>
-<p>5.1 Mac系统已经默认安装好了Python 2.7</p>
-<p>5.2 安装python的包管理器pip ，先下载 get-pip.py ： <a href="https://bootstrap.pypa.io/get-pip.py" target="_blank" rel="noopener">https://bootstrap.pypa.io/get-pip.py</a></p>
-<p>执行安装命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo python get-pip.py</span><br></pre></td></tr></table></figure>
+<h6 id="2-添加纹理缓存CVMetalTextureCacheRef和纹理MTLTexture变量"><a href="#2-添加纹理缓存CVMetalTextureCacheRef和纹理MTLTexture变量" class="headerlink" title="2 添加纹理缓存CVMetalTextureCacheRef和纹理MTLTexture变量"></a>2 添加纹理缓存CVMetalTextureCacheRef和纹理MTLTexture变量</h6><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">CVMetalTextureCacheRef</span> _videoTextureCache;</span><br><span class="line"> id&lt;<span class="type">MTLTexture</span>&gt; _videoTexture[<span class="number">2</span>];</span><br><span class="line"> <span class="type">CVPixelBufferRef</span> _pixelBuffer;</span><br></pre></td></tr></table></figure>
 
-<p>5.3 安装virtualenv，virtualenv 为每个不同项目提供一份 Python 安装。它并没有真正安装多个 Python 副本，但是它确实提供了一种巧妙的方式来让各项目环境保持独立。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip install virtualenv</span><br></pre></td></tr></table></figure>
+<p>添加转换矩阵的接收变量</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@property (nonatomic, strong)  id&lt;<span class="type">MTLBuffer</span>&gt; parametersBuffer;</span><br></pre></td></tr></table></figure>
 
-<p>5.4 开始配置flask环境</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">进到项目目录</span><br><span class="line">$ <span class="built_in">cd</span> 项目路径</span><br><span class="line">创建flask文件夹</span><br><span class="line">$ virtualenv flask</span><br><span class="line">$ <span class="built_in">cd</span> flask</span><br><span class="line">激活环境</span><br><span class="line">$ <span class="built_in">source</span> bin/activate</span><br><span class="line">安装flask</span><br><span class="line">$ pip install flask</span><br><span class="line">回到根目录</span><br><span class="line">$ <span class="built_in">cd</span> -</span><br></pre></td></tr></table></figure>
+<p>以下几个都是YUV转RGB的矩阵算法，给parametersBuffer赋值，拷贝到GPU中计算</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">_parametersBuffer = [_device newBufferWithLength:<span class="built_in">sizeof</span>(<span class="type">ColorParameters</span>) * <span class="number">2</span> options:<span class="type">MTLResourceOptionCPUCacheModeDefault</span>];</span><br><span class="line">    <span class="type">ColorParameters</span> matrix;</span><br><span class="line">    simd::float3 <span class="type">A</span>;</span><br><span class="line">    simd::float3 <span class="type">B</span>;</span><br><span class="line">    simd::float3 <span class="type">C</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 1</span></span><br><span class="line">    <span class="comment">//    A.x = 1;</span></span><br><span class="line">    <span class="comment">//    A.y = 1;</span></span><br><span class="line">    <span class="comment">//    A.z = 1;</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">//    B.x = 0;</span></span><br><span class="line">    <span class="comment">//    B.y = -0.343;</span></span><br><span class="line">    <span class="comment">//    B.z = 1.765;</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">//    C.x = 1.4;</span></span><br><span class="line">    <span class="comment">//    C.y = -0.765;</span></span><br><span class="line">    <span class="comment">//    C.z = 0;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 2</span></span><br><span class="line">    <span class="comment">//    A.x = 1.164;</span></span><br><span class="line">    <span class="comment">//    A.y = 1.164;</span></span><br><span class="line">    <span class="comment">//    A.z = 1.164;</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">//    B.x = 0;</span></span><br><span class="line">    <span class="comment">//    B.y = -0.392;</span></span><br><span class="line">    <span class="comment">//    B.z = 2.017;</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">//    C.x = 1.596;</span></span><br><span class="line">    <span class="comment">//    C.y = -0.813;</span></span><br><span class="line">    <span class="comment">//    C.z = 0;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3</span></span><br><span class="line">    <span class="type">A</span>.x = <span class="number">1.164</span>;</span><br><span class="line">    <span class="type">A</span>.y = <span class="number">1.164</span>;</span><br><span class="line">    <span class="type">A</span>.z = <span class="number">1.164</span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">B</span>.x = <span class="number">0</span>;</span><br><span class="line">    <span class="type">B</span>.y = -<span class="number">0.231</span>;</span><br><span class="line">    <span class="type">B</span>.z = <span class="number">2.112</span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">C</span>.x = <span class="number">1.793</span>;</span><br><span class="line">    <span class="type">C</span>.y = -<span class="number">0.533</span>;</span><br><span class="line">    <span class="type">C</span>.z = <span class="number">0</span>;</span><br><span class="line">    matrix.yuvToRGB = simd::float3x3&#123;<span class="type">A</span>, <span class="type">B</span>, <span class="type">C</span>&#125;; </span><br><span class="line">    memcpy(<span class="keyword">self</span>.parametersBuffer.contents, &amp;matrix, <span class="built_in">sizeof</span>(<span class="type">ColorParameters</span>));</span><br></pre></td></tr></table></figure>
 
-<p>6 、安装 macholib</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install macholib</span><br></pre></td></tr></table></figure>
+<p>获取每一帧视频信息生成纹理的代码</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">- (void)makeYUVTexture:(<span class="type">CVPixelBufferRef</span>)pixelBuffer &#123;</span><br><span class="line">    <span class="type">CVMetalTextureRef</span> y_texture ;</span><br><span class="line">    float y_width = <span class="type">CVPixelBufferGetWidthOfPlane</span>(pixelBuffer, <span class="number">0</span>);</span><br><span class="line">    float y_height = <span class="type">CVPixelBufferGetHeightOfPlane</span>(pixelBuffer, <span class="number">0</span>);</span><br><span class="line"> <span class="type">CVMetalTextureCacheCreateTextureFromImage</span>(kCFAllocatorDefault, _videoTextureCache, pixelBuffer, <span class="literal">nil</span>, <span class="type">MTLPixelFormatR8Unorm</span>, y_width, y_height, <span class="number">0</span>, &amp;y_texture);</span><br><span class="line"> </span><br><span class="line">    <span class="type">CVMetalTextureRef</span> uv_texture;</span><br><span class="line">    float uv_width = <span class="type">CVPixelBufferGetWidthOfPlane</span>(pixelBuffer, <span class="number">1</span>);</span><br><span class="line">    float uv_height = <span class="type">CVPixelBufferGetHeightOfPlane</span>(pixelBuffer, <span class="number">1</span>);</span><br><span class="line">    <span class="type">CVMetalTextureCacheCreateTextureFromImage</span>(kCFAllocatorDefault, _videoTextureCache, pixelBuffer, <span class="literal">nil</span>, <span class="type">MTLPixelFormatRG8Unorm</span>, uv_width, uv_height, <span class="number">1</span>, &amp;uv_texture);</span><br><span class="line">    </span><br><span class="line">    id&lt;<span class="type">MTLTexture</span>&gt; luma = <span class="type">CVMetalTextureGetTexture</span>(y_texture);</span><br><span class="line">    id&lt;<span class="type">MTLTexture</span>&gt; chroma = <span class="type">CVMetalTextureGetTexture</span>(uv_texture);</span><br><span class="line">    </span><br><span class="line">    _videoTexture[<span class="number">0</span>] = luma;</span><br><span class="line">    _videoTexture[<span class="number">1</span>] = chroma;</span><br><span class="line">    </span><br><span class="line">    <span class="type">CVBufferRelease</span>(y_texture);</span><br><span class="line">    <span class="type">CVBufferRelease</span>(uv_texture);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)display:(<span class="type">CVPixelBufferRef</span>)overlay &#123;</span><br><span class="line">    <span class="keyword">if</span> (!overlay) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!_videoTextureCache) &#123;</span><br><span class="line">        <span class="type">NSLog</span>(@<span class="string">"No video texture cache"</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    [<span class="keyword">self</span> makeYUVTexture:overlay];</span><br><span class="line">&#125;</span><br><span class="line">- (void)setVideoTexture &#123;</span><br><span class="line"> <span class="type">CVMetalTextureCacheFlush</span>(_videoTextureCache, <span class="number">0</span>);</span><br><span class="line">    <span class="type">CVReturn</span> err = <span class="type">CVMetalTextureCacheCreate</span>(kCFAllocatorDefault, <span class="type">NULL</span>, _device, <span class="type">NULL</span>, &amp;_videoTextureCache);</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="type">NSLog</span>(@<span class="string">"&gt;&gt; ERROR: Could not create a texture cache"</span>);</span><br><span class="line">        <span class="built_in">assert</span>(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>7、最后运行 run_web（或者 ）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python run_web.py</span><br></pre></td></tr></table></figure>
-
-<p>在浏览器中输入127.0.0.1:9527 将ipa拖入上传框等待即可看到检查结果<br><img src="/assets/img/checker_upload.png" alt="检查结果.png"></p>
+<p><img src="/assets/img/yuv_rgb_picture.png" alt="效果图.PNG"></p>
+<p> <code>（最后PS： 有大神知道怎么使用Metal实现渲染到纹理的么，求指导）</code></p>
 
       
 
@@ -274,6 +265,10 @@ var _hmt = _hmt || [];
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Metal</a>
+        		</li>
+      		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
         		</li>
@@ -331,7 +326,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://orangeschen.cn/2018/04/02/private-api-checker/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://orangeschen.cn/metal-yuv-to-rgb.html" alt="微信分享二维码">
     </div>
 </div>
 
@@ -345,18 +340,18 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2018/05/02/metal-learn-base/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/metal-draw-picture.html" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          Metal入门（使用Metal画一个三角形）
+          Metal图片渲染
         
       </div>
     </a>
   
   
-    <a href="/2017/11/08/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Hello World</div>
+    <a href="/metal-learn-base.html" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Metal入门（使用Metal画一个三角形）</div>
       <i class="icon-circle-right"></i>
     </a>
   

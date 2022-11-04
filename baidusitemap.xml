@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://orangeschen.cn/2022/11/02/flutter/flutter_source_1/</loc>
+    <loc>http://orangeschen.cn/flutter/flutter_source_1.html</loc>
     <lastmod>2022-11-03</lastmod>
   </url>
   <url>
-    <loc>http://orangeschen.cn/2021/05/18/front-end/clean-architecture/</loc>
+    <loc>http://orangeschen.cn/front-end/clean-architecture.html</loc>
     <lastmod>2022-08-08</lastmod>
   </url>
   <url>
-    <loc>http://orangeschen.cn/2021/05/18/front-end/react-and-flutter/</loc>
+    <loc>http://orangeschen.cn/front-end/react-and-flutter.html</loc>
     <lastmod>2022-08-08</lastmod>
   </url>
   <url>
-    <loc>http://orangeschen.cn/2021/05/18/front-end/root-widget/</loc>
+    <loc>http://orangeschen.cn/front-end/root-widget.html</loc>
     <lastmod>2022-08-08</lastmod>
   </url>
   <url>
-    <loc>http://orangeschen.cn/2021/05/18/front-end/react-hooks/</loc>
+    <loc>http://orangeschen.cn/front-end/react-hooks.html</loc>
     <lastmod>2022-08-08</lastmod>
   </url>
   <url>
-    <loc>http://orangeschen.cn/2021/05/18/front-end/react-and-angular/</loc>
+    <loc>http://orangeschen.cn/front-end/react-and-angular.html</loc>
     <lastmod>2022-08-08</lastmod>
   </url>
   <url>
-    <loc>http://orangeschen.cn/2021/05/18/front-end/fish-redux/</loc>
+    <loc>http://orangeschen.cn/front-end/fish-redux.html</loc>
     <lastmod>2022-08-08</lastmod>
   </url>
   <url>
-    <loc>http://orangeschen.cn/2021/05/16/life/review-2020/</loc>
+    <loc>http://orangeschen.cn/life/review-2020.html</loc>
     <lastmod>2022-08-08</lastmod>
   </url>
   <url>
-    <loc>http://orangeschen.cn/2018/04/02/private-api-checker/</loc>
+    <loc>http://orangeschen.cn/private-api-checker.html</loc>
     <lastmod>2022-08-08</lastmod>
   </url>
   <url>
-    <loc>http://orangeschen.cn/2018/05/09/metal-yuv-to-rgb/</loc>
+    <loc>http://orangeschen.cn/metal-yuv-to-rgb.html</loc>
     <lastmod>2022-08-08</lastmod>
   </url>
   <url>
-    <loc>http://orangeschen.cn/2018/05/02/metal-learn-base/</loc>
+    <loc>http://orangeschen.cn/metal-learn-base.html</loc>
     <lastmod>2022-08-08</lastmod>
   </url>
   <url>
-    <loc>http://orangeschen.cn/2018/05/09/metal-draw-picture/</loc>
+    <loc>http://orangeschen.cn/metal-draw-picture.html</loc>
     <lastmod>2022-08-08</lastmod>
   </url>
   <url>
-    <loc>http://orangeschen.cn/2022/08/08/flutter/flutter-books-list/</loc>
+    <loc>http://orangeschen.cn/flutter/flutter-books-list.html</loc>
     <lastmod>2022-08-08</lastmod>
   </url>
   <url>
-    <loc>http://orangeschen.cn/2017/11/08/hello-world/</loc>
+    <loc>http://orangeschen.cn/hello-world.html</loc>
     <lastmod>2022-08-08</lastmod>
   </url>
 </urlset> 
