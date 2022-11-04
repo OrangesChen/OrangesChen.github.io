@@ -4,5 +4,9 @@ Allow: /archives/
 Allow: /categories/
 Allow: /tags/
 Allow: /about/
+Disallow: /vendors/
+Disallow: /fonts/
+Disallow: /fancybox/
+Disallow: /assets/
 Sitemap: https://orangeschen.cn/sitemap.xml
 Sitemap: https://orangeschen.cn/baidu_sitemap.xml
