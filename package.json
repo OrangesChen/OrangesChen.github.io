@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "hexo generate",
-    "clean": "hexo clean",
+    "clean": "hexo clean & cp baidu_verify_code-6zrFoBOJll.html public/ & cp googlec10514b8f831087c.html public/ & cp robots.txt public/",
     "deploy": "hexo deploy",
     "server": "hexo server"
   },
@@ -15,10 +15,13 @@
     "hexo": "^4.1.1",
     "hexo-deployer-git": "^2.1.0",
     "hexo-generator-archive": "^1.0.0",
+    "hexo-generator-baidu-sitemap": "0.1.9",
     "hexo-generator-category": "^1.0.0",
     "hexo-generator-index": "^1.0.0",
-    "hexo-generator-json-content": "^4.2.3",
+    "hexo-generator-json-content": "4.2.3",
+    "hexo-generator-sitemap": "3.0.1",
     "hexo-generator-tag": "^1.0.0",
+    "hexo-neat": "1.0.9",
     "hexo-renderer-ejs": "^1.0.0",
     "hexo-renderer-marked": "^2.0.0",
     "hexo-renderer-stylus": "^1.1.0",

@@ -65,8 +65,10 @@ toc_empty_wording: '目录，不存在的…'
 top: true
 
 # Miscellaneous
-baidu_analytics: ''
-google_analytics: ''
+baidu_analytics: 'afe0c9d76aedea5ddad44ce24d36da12'
+# Add google analytics configuration
+# 添加 Google Analytics 配置
+google_analytics: 'G-4SJFW1MWN4'
 favicon: /img/favicon.png
 
 #你的头像url
@@ -93,11 +95,11 @@ changyan_conf: false
 disqus: false
 
 #5、Gitment
-gitment_owner: false      #你的 GitHub ID
-gitment_repo: ''          #存储评论的 repo
+gitment_owner: OrangesChen      #你的 GitHub ID
+gitment_repo: 'OrangesChen.github.io'          #存储评论的 repo
 gitment_oauth:
-  client_id: ''           #client ID
-  client_secret: ''       #client secret
+  client_id: '073eaa9b863d23494a1c'           #client ID
+  client_secret: 'cdce285102e9a5a00681335032918b62a5e291b7'       #client secret
 
 # 样式定制 - 一般不需要修改，除非有很强的定制欲望…
 style:
@@ -128,3 +130,6 @@ smart_menu:
 friends:
 
 aboutme: 技术不够<br><br>颜值来凑<br><br>可惜<br><br>颜值也不够ORZ<br><br>一个想脱贫<br><br>一夜暴富<br><br>周游全世界的<br><br>菜鸟程序媛
+
+
+
