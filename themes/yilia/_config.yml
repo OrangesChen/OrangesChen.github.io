@@ -92,14 +92,15 @@ changyan_appid: false
 changyan_conf: false
 
 #4、Disqus 在hexo根目录的config里也有disqus_shortname字段，优先使用yilia的
-disqus: false
+disqus: true
+disqus_shortname: orangeschen
 
 #5、Gitment
-gitment_owner: OrangesChen      #你的 GitHub ID
-gitment_repo: 'OrangesChen.github.io'          #存储评论的 repo
-gitment_oauth:
-  client_id: '073eaa9b863d23494a1c'           #client ID
-  client_secret: 'cdce285102e9a5a00681335032918b62a5e291b7'       #client secret
+# gitment_owner: OrangesChen      #你的 GitHub ID
+# gitment_repo: 'OrangesChen.github.io'          #存储评论的 repo
+# gitment_oauth:
+#   client_id: '073eaa9b863d23494a1c'           #client ID
+#   client_secret: 'cdce285102e9a5a00681335032918b62a5e291b7'       #client secret
 
 # 样式定制 - 一般不需要修改，除非有很强的定制欲望…
 style:

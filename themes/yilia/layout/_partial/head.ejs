@@ -38,6 +38,12 @@
           background: <%= theme.style && theme.style.slider ? theme.style.slider : defaultCtnBg %>;
         }
     </style>
-    <%- partial('google-analytics') %> <%- partial('baidu-analytics') %>
+    <%- partial('google-analytics') %> <%- partial('baidu-analytics') %> <% if
+    (is_post() && config.generator_amp){ %>
+    <link
+      rel="amphtml"
+      href="<%= config.url %><%= config.root %><%= page.path %>/amp/index.html"
+    />
+    <% } %>
   </head>
 </html>
