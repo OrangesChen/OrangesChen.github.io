@@ -15,29 +15,29 @@ Flutter engine [源码编译](https://github.com/flutter/flutter/wiki/Setting-up
 > 开始这篇文章前，首先我们要明确的是，Framework 源码位于 flutter/flutter 中，通过 `git clone [https://github.com/flutter/flutter.git](https://github.com/flutter/flutter.git) -b stable`获取的，开发过程中断点调试的源码指的就是这个项目的，后续相关路径以 flutter 表示该目录；而 Engine 和 Embedder 的源码位于通过[源码编译](https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment)获取到的源码 flutter_source/src/flutter 目录中，后续相关路径以 engine 表示该目录。
 
 以下为 Framework 源码实现，开发者接触到的代码层，flutter 目录如下图所示：
-![flutter 源码结构.png](/assets/flutter/flutter_source_1/87bc703bcada.png)
+![flutter 源码结构.png](/assets/flutter/flutter-source-1/87bc703bcada.png)
 <center><p>flutter 源码结构</p></center>
 
-![bin/internal 源码结构.png](/assets/flutter/flutter_source_1/6c1f19adb2da.png)
+![bin/internal 源码结构.png](/assets/flutter/flutter-source-1/6c1f19adb2da.png)
 <center><p>bin/internal 源码结构</p></center>
 
-![flutter/packages 源码结构.png](/assets/flutter/flutter_source_1/54417118d0dd.png )
+![flutter/packages 源码结构.png](/assets/flutter/flutter-source-1/54417118d0dd.png )
 <center><p>flutter/packages 源码结构</p></center>
 
 其中`Flutter SDK` 源码指的是 Dart 实现的 Framework 层的源码。
 以下则为 depot_tools 获取到的 engine 目录，其中包含了 Engine 和 Embedder 层的相关实现。
-![flutter/engine 目录结构.png](/assets/flutter/flutter_source_1/ed5105e7e229.png)
+![flutter/engine 目录结构.png](/assets/flutter/flutter-source-1/ed5105e7e229.png)
 <center><p>flutter/engine 目录结构</p></center>
 
 > 需要先使用 ./flutter/tools/gn 生成构建所需的元文件，再使用 ninja 构建出最终的产物，构建出对应平台的源码。
 
-![./flutter/tools/gn 和 ninja 工具构建不同平台的产物.png](/assets/flutter/flutter_source_1/fb5c841caa47.png )
+![./flutter/tools/gn 和 ninja 工具构建不同平台的产物.png](/assets/flutter/flutter-source-1/fb5c841caa47.png )
 <center><p>./flutter/tools/gn 和 ninja 工具构建不同平台的产物</p></center>
 
 `hot_debug_unopt` 的作用是构建 flutter 工程，生成 `Dart Kernel` 或者特定平台的 AOT 文件，能在 x86 架构的 PC 设备上生成 ARM 架构的机器码，生成构建 Flutter Engine 所需的元文件。
 `ios_debug_unopt/android_denug_unopt`存放最终构建出的 Engine 和 Embedder 产物，项目里面 `compile_commands.json` 存储了 Engine 中代码的交叉索引，后续源码调试需要使用到这个文件。
 
-![ios_debug_unopt 源码结构，engine 源码调试的路径.png](/assets/flutter/flutter_source_1/47fc841005be.png)
+![ios_debug_unopt 源码结构，engine 源码调试的路径.png](/assets/flutter/flutter-source-1/47fc841005be.png)
 <center><p>ios_debug_unopt 源码结构，engine 源码调试的路径</p></center>
 
 ## Flutter 源码调试
@@ -54,11 +54,11 @@ flutter run ios --local-engine=ios_debug_unopt  --local-engine-src-path=/Volumes
 
 运行成功后，iOS 项目 `Generated.xcconfig` 配置 `FLUTTER_ENGINE`、`LOCAL_ENGINE` 更新为 Flutter Engine 源码地址， 将 `LOCAL_ENGINE` 源码 `flutter_engine.xcodeproj`拖到项目中
 
-![image.png](/assets/flutter/flutter_source_1/3bd3b35575b5.png)
+![image.png](/assets/flutter/flutter-source-1/3bd3b35575b5.png)
 
 `flutter_engine.xcodeproj` 项目里设置断点，运行代码，则可开始调试 Engine/Embedder 源码
 
-![image.png](/assets/flutter/flutter_source_1/b7fef6297e9e.png)
+![image.png](/assets/flutter/flutter-source-1/b7fef6297e9e.png)
 
 ## Flutter 启动流程
 
@@ -68,7 +68,7 @@ Embedder 是 Flutter 接入原生平台的关键，位于整个 Flutter 架构�
 
 `FlutterViewController` 中持有两个关键的对象 `FlutterView` 和 `FlutterEngine`，`FlutterEngine` 负责 Engine 在 Embedder 中的调用和管理，`FlutterView` 则负责 Engine 中 UI 数据的上屏显示。
 
-![](/assets/flutter/flutter_source_1/35cc45f52143.jpeg)
+![](/assets/flutter/flutter-source-1/35cc45f52143.jpeg)
 
 ```objectivec
 @implementation FlutterViewController {
@@ -122,7 +122,7 @@ Embedder 是 Flutter 接入原生平台的关键，位于整个 Flutter 架构�
 @end
 ```
 
-![FlutterViewController 初始化.png](/assets/flutter/flutter_source_1/42727c1736bc.png)
+![FlutterViewController 初始化.png](/assets/flutter/flutter-source-1/42727c1736bc.png)
 <center><p></p></center>
 
 可以看到初始化方式有两种，其本质上是一样的，以下这个构造方法是为了在存在多个 `FlutterViewController` 的情况下复用 `FlutterEngine` 对象。
@@ -165,7 +165,7 @@ Embedder 是 Flutter 接入原生平台的关键，位于整个 Flutter 架构�
 ```
 
 ViewController 初始化设置，添加通知消息订阅
-![image.png](/assets/flutter/flutter_source_1/72275ef529d6.png)
+![image.png](/assets/flutter/flutter-source-1/72275ef529d6.png)
 
 这三个接口允许我们对 Dart 的 Navigator 直接进行操作，通过 Platform Channel 实现
 
@@ -184,7 +184,7 @@ ViewController 初始化设置，添加通知消息订阅
 ```
 
 加载 view
-![loadView.png](/assets/flutter/flutter_source_1/cc17e4c684fd.png)
+![loadView.png](/assets/flutter/flutter-source-1/cc17e4c684fd.png)
 
 ```objectivec
 - (void)loadView {
@@ -234,7 +234,7 @@ ViewController 初始化设置，添加通知消息订阅
 
 `SplashScreenView` 闪屏获取，属性 getter 方法实现，实现比较简单，源码就不显示出来了
 
-![image.png](/assets/flutter/flutter_source_1/b16ba107ef75.png)
+![image.png](/assets/flutter/flutter-source-1/b16ba107ef75.png)
 
 Surface 创建和销毁
 
@@ -268,11 +268,11 @@ Surface 创建和销毁
 
 UIViewController、UIApplication 生命周期监听
 
-![image.png](/assets/flutter/flutter_source_1/95c99e13fea0.png)
+![image.png](/assets/flutter/flutter-source-1/95c99e13fea0.png)
 
 原生生命周期和 Flutter 中 `AppLifecycleState` 的对应关系
 
-![](/assets/flutter/flutter_source_1/13f74c316175.jpeg)
+![](/assets/flutter/flutter-source-1/13f74c316175.jpeg)
 
 ```objectivec
 - (void)viewDidDisappear:(BOOL)animated {
@@ -326,7 +326,7 @@ UIViewController、UIApplication 生命周期监听
 ```
 
 手势事件处理
-![image.png](/assets/flutter/flutter_source_1/16d1b1a31b76.png)
+![image.png](/assets/flutter/flutter-source-1/16d1b1a31b76.png)
 
 核心代码为 `dispatchTouches`方法，将 Touches 分发给 Engine
 
@@ -463,9 +463,9 @@ UIViewController、UIApplication 生命周期监听
 ```
 
 键盘事件处理，这块内容主要是键盘显示动画
-![image.png](/assets/flutter/flutter_source_1/8f7f17c45f35.png)
+![image.png](/assets/flutter/flutter-source-1/8f7f17c45f35.png)
 **PlatformViews**、**FlutterBinaryMessenger、FlutterTextureRegistry、FlutterPluginRegistry** 具体实现在 `FlutterEngine` 类中，后面会对 `FlutterEngine` 源码进行解析。
-![image.png](/assets/flutter/flutter_source_1/a60a67313076.png)
+![image.png](/assets/flutter/flutter-source-1/a60a67313076.png)
 
 ### FlutterEngine 源码分析
 
@@ -1061,7 +1061,7 @@ bool DartIsolate::RunFromLibrary(std::optional<std::string> library_name,
 
 由上面代码可以看出 `engine` 启动的整个流程，如下图所示：
 
-![](/assets/flutter/flutter_source_1/045d7d2bf527.jpeg)
+![](/assets/flutter/flutter-source-1/045d7d2bf527.jpeg)
 
 > 在 FlutterEngine 创建 shell 时会创建 UI Task Runner、Platform Task Runne、IO Task Runner 及 Raster Task Runner 这四个 Task Runner，每个 Runner 分别会处理其对应的任务
 
@@ -1095,7 +1095,7 @@ ThreadHost::ThreadHost(const ThreadHostConfig& host_config)
 }
 ```
 
-![](/assets/flutter/flutter_source_1/9c7f00f72bb1.jpeg)
+![](/assets/flutter/flutter-source-1/9c7f00f72bb1.jpeg)
 
 ### FlutterView 源码解析
 
@@ -1231,18 +1231,18 @@ Flutter 运行于 iOS 之上，从源码层面看，总结如下：
 
 为了验证整个运行流程，我分别在上面所提到的一些方法设置断点进行调试，如下所示：
 
-![image.png](/assets/flutter/flutter_source_1/81975fcba845.png)
+![image.png](/assets/flutter/flutter-source-1/81975fcba845.png)
 
 断点流程如下所示：
-![0 Thread 1 Queue com.apple.main-thread (serial).png](/assets/flutter/flutter_source_1/0d012995e5a6.png)
+![0 Thread 1 Queue com.apple.main-thread (serial).png](/assets/flutter/flutter-source-1/0d012995e5a6.png)
 
-![0 Thread Queue com.apple.main-thread (serial).png](/assets/flutter/flutter_source_1/fbc41308c282.png)
+![0 Thread Queue com.apple.main-thread (serial).png](/assets/flutter/flutter-source-1/fbc41308c282.png)
 
-![Thread 1 Queue com.apple.main-thread (serial).png](/assets/flutter/flutter_source_1/6edb37de24a3.png)
+![Thread 1 Queue com.apple.main-thread (serial).png](/assets/flutter/flutter-source-1/6edb37de24a3.png)
 
-![image.png](/assets/flutter/flutter_source_1/e922db657ce3.png)
+![image.png](/assets/flutter/flutter-source-1/e922db657ce3.png)
 
-![image.png](/assets/flutter/flutter_source_1/3448d325785f.png)
+![image.png](/assets/flutter/flutter-source-1/3448d325785f.png)
 
 *对整个 Flutter 运行的流程可以大致总结如下，主要是侧重在引擎侧，仅供参考：*
 
