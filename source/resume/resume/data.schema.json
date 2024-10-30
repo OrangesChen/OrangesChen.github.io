@@ -1,0 +1,124 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "About myself",
+    "description": "Base info",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "$schema": {
+        "type": "string"
+      },
+      "name": {
+          "description": "your name",
+          "type": "string"
+      },
+      "career": {
+          "description": "your career",
+          "type": "string"
+      },
+      "school": {
+          "type": "string"
+      },
+      "educationTime": {
+          "type": "string"
+      },
+      "baseInfoTitle": {
+          "type": "string"
+      },
+      "contactTitle": {
+          "type": "string"
+      },
+      "baseInfo": {
+        "type": "array",
+        "items": {
+          "$ref": "#/defs/info"
+        }
+      },
+      "contactInfo": {
+        "type": "array",
+        "items": {
+          "$ref": "#/defs/info"
+        }
+      },
+      "tags": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "Works": {
+        "type": "array",
+        "items": {
+            "$ref": "#/defs/work"
+        }
+    },
+    "skill": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "infoType": {
+              "enum": [
+                "evaluation",
+                "skill",
+                "field"
+              ]
+            },
+            "fields": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "defs": {
+        "info": {
+            "required": ["key", "name", "content"],
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "key": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": ["tel", "mailto", "link", "none"]
+                },
+                "color": {
+                    "type": "string"
+                }
+            }
+        },
+        "work": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "company": {
+                "type": "string"
+              },
+              "project": {
+                "type": "string"
+              },
+              "keyword": {
+                "type": "string"
+              },
+              "description": {
+                  "type": "string"
+              }
+            }
+        }
+    }
+}
