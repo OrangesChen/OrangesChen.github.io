@@ -12,7 +12,7 @@ Flutter engine [源码编译](https://github.com/flutter/flutter/wiki/Setting-up
 
 ## Flutter 源码目录结构
 
-> 开始这篇文章前，首先我们要明确的是，Framework 源码位于 flutter/flutter 中，通过 `git clone [https://github.com/flutter/flutter.git](https://github.com/flutter/flutter.git) -b stable`获取的，开发过程中断点调试的源码指的就是这个项目的，后续相关路径以 flutter 表示该目录；而 Engine 和 Embedder 的源码位于通过[源码编译](https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment)获取到的源码 flutter_source/src/flutter 目录中，后续相关路径以 engine 表示该目录。
+> 开始这篇文章前，首先我们要明确的是，Framework 源码位于 flutter/flutter 中，通过 `git clone git@github.com:flutter/flutter.git -b stable`获取的，开发过程中断点调试的源码指的就是这个项目的，后续相关路径以 flutter 表示该目录；而 Engine 和 Embedder 的源码位于通过[源码编译](https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment)获取到的源码 flutter_source/src/flutter 目录中，后续相关路径以 engine 表示该目录。
 
 以下为 Framework 源码实现，开发者接触到的代码层，flutter 目录如下图所示：
 ![flutter 源码结构.png](/assets/flutter/flutter-source-1/87bc703bcada.png)
@@ -1063,7 +1063,7 @@ bool DartIsolate::RunFromLibrary(std::optional<std::string> library_name,
 
 ![](/assets/flutter/flutter-source-1/045d7d2bf527.jpeg)
 
-> 在 FlutterEngine 创建 shell 时会创建 UI Task Runner、Platform Task Runne、IO Task Runner 及 Raster Task Runner 这四个 Task Runner，每个 Runner 分别会处理其对应的任务
+> 在 FlutterEngine 创建 shell 时会创建 UI Task Runner、Platform Task Runner、IO Task Runner 及 Raster Task Runner 这四个 Task Runner，每个 Runner 分别会处理其对应的任务
 
 `thread_host` 创建线程，负责不同的工作
 

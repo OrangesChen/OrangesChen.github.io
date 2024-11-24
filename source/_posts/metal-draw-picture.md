@@ -5,7 +5,7 @@ tags:
     - Metal
     - iOS
 ---
-本章内容主要是在上一篇[绘制三角形](http://www.jianshu.com/p/5ce9f4f11637)的基础上添加了图片渲染的功能，分别说明了使用Metal和MetalKit中创建纹理的方法。
+本章内容主要是在上一篇【绘制三角形】的基础上添加了图片渲染的功能，分别说明了使用Metal和MetalKit中创建纹理的方法。
 
 ###### 1、首先修改Metal shader的着色里的内容
 
