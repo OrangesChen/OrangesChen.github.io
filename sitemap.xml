@@ -4,16 +4,7 @@
   <url>
     <loc>https://orangeschen.cn/metal-draw-picture.html</loc>
     
-    <lastmod>2024-11-24</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://orangeschen.cn/flutter/flutter-source-1.html</loc>
-    
-    <lastmod>2024-11-01</lastmod>
+    <lastmod>2024-12-05</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -22,7 +13,16 @@
   <url>
     <loc>https://orangeschen.cn/flutter/flutter_pigeon.html</loc>
     
-    <lastmod>2024-10-30</lastmod>
+    <lastmod>2024-12-05</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://orangeschen.cn/flutter/flutter-source-1.html</loc>
+    
+    <lastmod>2024-12-05</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -31,7 +31,7 @@
   <url>
     <loc>https://orangeschen.cn/flutter/flutter-architecture-introduction.html</loc>
     
-    <lastmod>2024-10-30</lastmod>
+    <lastmod>2024-12-05</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -65,34 +65,7 @@
   </url>
   
   <url>
-    <loc>https://orangeschen.cn/front-end/fish-redux.html</loc>
-    
-    <lastmod>2024-10-30</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://orangeschen.cn/front-end/react-and-flutter.html</loc>
-    
-    <lastmod>2024-10-30</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://orangeschen.cn/front-end/react-hooks.html</loc>
-    
-    <lastmod>2024-10-30</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://orangeschen.cn/front-end/root-widget.html</loc>
+    <loc>https://orangeschen.cn/hello-world.html</loc>
     
     <lastmod>2024-10-30</lastmod>
     
@@ -110,7 +83,7 @@
   </url>
   
   <url>
-    <loc>https://orangeschen.cn/life/review-2020.html</loc>
+    <loc>https://orangeschen.cn/front-end/fish-redux.html</loc>
     
     <lastmod>2024-10-30</lastmod>
     
@@ -119,7 +92,34 @@
   </url>
   
   <url>
-    <loc>https://orangeschen.cn/front-end/clean-architecture.html</loc>
+    <loc>https://orangeschen.cn/front-end/react-hooks.html</loc>
+    
+    <lastmod>2024-10-30</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://orangeschen.cn/front-end/react-and-flutter.html</loc>
+    
+    <lastmod>2024-10-30</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://orangeschen.cn/front-end/root-widget.html</loc>
+    
+    <lastmod>2024-10-30</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://orangeschen.cn/life/review-2020.html</loc>
     
     <lastmod>2024-10-30</lastmod>
     
@@ -137,45 +137,9 @@
   </url>
   
   <url>
-    <loc>https://orangeschen.cn/resume/index.html</loc>
+    <loc>https://orangeschen.cn/front-end/clean-architecture.html</loc>
     
-    <lastmod>2021-06-02</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://orangeschen.cn/resume/404.html</loc>
-    
-    <lastmod>2021-06-02</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://orangeschen.cn/resume/resume/data.schema.json</loc>
-    
-    <lastmod>2021-06-02</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://orangeschen.cn/resume/resume/data.json</loc>
-    
-    <lastmod>2021-06-02</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://orangeschen.cn/hello-world.html</loc>
-    
-    <lastmod>2021-05-16</lastmod>
+    <lastmod>2024-10-30</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -184,7 +148,7 @@
 
   <url>
     <loc>https://orangeschen.cn/</loc>
-    <lastmod>2024-11-24</lastmod>
+    <lastmod>2024-12-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -192,35 +156,35 @@
   
   <url>
     <loc>https://orangeschen.cn/tags/iOS/</loc>
-    <lastmod>2024-11-24</lastmod>
+    <lastmod>2024-12-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://orangeschen.cn/tags/Metal/</loc>
-    <lastmod>2024-11-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://orangeschen.cn/tags/FrontEnd/</loc>
-    <lastmod>2024-11-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://orangeschen.cn/tags/Life/</loc>
-    <lastmod>2024-11-24</lastmod>
+    <lastmod>2024-12-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://orangeschen.cn/tags/Flutter/</loc>
-    <lastmod>2024-11-24</lastmod>
+    <lastmod>2024-12-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://orangeschen.cn/tags/FrontEnd/</loc>
+    <lastmod>2024-12-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://orangeschen.cn/tags/Life/</loc>
+    <lastmod>2024-12-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
