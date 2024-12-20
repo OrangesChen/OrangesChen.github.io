@@ -6,7 +6,7 @@
     "cp": "cp baidu_verify_code-6zrFoBOJll.html public/ & cp googlec10514b8f831087c.html public/ & cp robots.txt public/ & cp ads.txt public/",
     "build": "hexo generate && yarn cp",
     "clean": "hexo clean",
-    "deploy": "yarn clean & yarn build & hexo deploy",
+    "deploy": "yarn clean & yarn build & hexo d",
     "server": "hexo server"
   },
   "hexo": {

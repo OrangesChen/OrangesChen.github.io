@@ -3,8 +3,10 @@
 menu:
   主页: /
   大前端: /tags/FrontEnd
+  Flutter: /tags/Flutter
   随笔: /tags/Life
   iOS: /tags/iOS
+  AI: /tags/AI
 
 # SubNav
 subnav:
