@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://orangeschen.cn/flutter/flutter-architecture-introduction.html</loc>
+    <lastmod>2025-02-26</lastmod>
+  </url>
+  <url>
     <loc>https://orangeschen.cn/ai/ngrok-ollama.html</loc>
-    <lastmod>2024-12-20</lastmod>
+    <lastmod>2025-02-26</lastmod>
   </url>
   <url>
     <loc>https://orangeschen.cn/metal-draw-picture.html</loc>
@@ -14,10 +18,6 @@
   </url>
   <url>
     <loc>https://orangeschen.cn/flutter/flutter_pigeon.html</loc>
-    <lastmod>2024-12-05</lastmod>
-  </url>
-  <url>
-    <loc>https://orangeschen.cn/flutter/flutter-architecture-introduction.html</loc>
     <lastmod>2024-12-05</lastmod>
   </url>
   <url>

@@ -2,9 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://orangeschen.cn/flutter/flutter-architecture-introduction.html</loc>
+    
+    <lastmod>2025-02-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://orangeschen.cn/ai/ngrok-ollama.html</loc>
     
-    <lastmod>2024-12-20</lastmod>
+    <lastmod>2025-02-26</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -30,15 +39,6 @@
   
   <url>
     <loc>https://orangeschen.cn/flutter/flutter_pigeon.html</loc>
-    
-    <lastmod>2024-12-05</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://orangeschen.cn/flutter/flutter-architecture-introduction.html</loc>
     
     <lastmod>2024-12-05</lastmod>
     
@@ -157,7 +157,7 @@
 
   <url>
     <loc>https://orangeschen.cn/</loc>
-    <lastmod>2024-12-20</lastmod>
+    <lastmod>2025-02-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -165,42 +165,42 @@
   
   <url>
     <loc>https://orangeschen.cn/tags/Metal/</loc>
-    <lastmod>2024-12-20</lastmod>
+    <lastmod>2025-02-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://orangeschen.cn/tags/iOS/</loc>
-    <lastmod>2024-12-20</lastmod>
+    <lastmod>2025-02-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://orangeschen.cn/tags/AI/</loc>
-    <lastmod>2024-12-20</lastmod>
+    <lastmod>2025-02-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://orangeschen.cn/tags/Flutter/</loc>
-    <lastmod>2024-12-20</lastmod>
+    <lastmod>2025-02-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://orangeschen.cn/tags/FrontEnd/</loc>
-    <lastmod>2024-12-20</lastmod>
+    <lastmod>2025-02-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://orangeschen.cn/tags/Life/</loc>
-    <lastmod>2024-12-20</lastmod>
+    <lastmod>2025-02-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
